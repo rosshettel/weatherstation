@@ -3,20 +3,21 @@
     <head>
         <title>ng Weather Station</title>
         <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
+        <link href='http://fonts.googleapis.com/css?family=Noticia+Text' rel='stylesheet' type='text/css'>
     </head>
     <body ng-app="ngWeatherStation">
         <div id="viewframe">
             <div ng-controller="weatherController" ng-init='init()'>
                 <div id="currently">
-                    <skycon icon="forecast.currently.icon" size='200'></skycon>
-                    <p><strong>Currently:</strong> <span ng-bind='forecast.minutely.summary'></span>
+                    <skycon icon="forecast.currently.icon" size='200' color='white' class='icon'></skycon>
+                    <p><strong><span ng-bind='forecast.minutely.summary'></strong></span>
 
                     <p><strong>Feels like:</strong> <span ng-bind='forecast.currently.apparentTemperature | temp'></span></p>
                 </div>
 
                 <div class="commute">
                     <h2>Next Commute</h2>
-                    <skycon icon="nextCommute.icon" size='100'></skycon>
+                    <skycon icon="nextCommute.icon" size='100' color='white'></skycon>
                     <span ng-bind="nextCommute.time * 1000 | date: 'medium'"></span>
                     <p><strong>Chance of rain:</strong> <span ng-bind="nextCommute.precipProbability | percent"></span></p>
                     <p><strong>Feels like:</strong> <span ng-bind='nextCommute.apparentTemperature | temp'></span></p>
@@ -24,12 +25,17 @@
 
                 <div class="commute">
                     <h2>Next Next Commute</h2>
-                    <skycon icon="nextNextCommute.icon" size='100'></skycon>
+                    <skycon icon="nextNextCommute.icon" size='100' color='white'></skycon>
                     <span ng-bind="nextNextCommute.time * 1000 | date: 'medium'"></span>
                 </div>
 
                 <div id='weekly'>
-                    
+                    <div class='weekly-day' ng-repeat='day in forecast.daily.data'>
+                        <h3 ng-bind="day.time * 1000 | date: 'EEE'"></h3>
+                        <skycon icon="day.icon" size='50' color='white' class='icon'></skycon>
+                        <div class='high'><strong>H:</strong> <span ng-bind="day.temperatureMax | temp: 0"></span></div>
+                        <div class='low'><strong>L:</strong> <span ng-bind="day.temperatureMin | temp: 0"></span></div>
+                    </div>
                 </div>
 
 

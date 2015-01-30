@@ -24,7 +24,7 @@ app.factory('ForecastIoFactory', function ($http) {
 
 app.filter('temp', function ($filter) {
     return function(input, precision) {
-        if (!precision) {
+        if (precision === undefined) {
             precision = 1;
         }
         var numberFilter = $filter('number');
