@@ -1,0 +1,24 @@
+{
+  "name": "ng-weather-station",
+  "version": "0.0.1",
+  "authors": [
+    "Ross Hettel <rhettel@highground.com>"
+  ],
+  "description": "Small weather display for a tiny IBM monitor",
+  "main": "index.html",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-skycons": "~1.0.0"
+  }
+}
