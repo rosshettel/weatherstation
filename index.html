@@ -2,13 +2,45 @@
 <html>
     <head>
         <title>ng Weather Station</title>
+        <link rel="stylesheet" href="style.css" media="screen" title="no title" charset="utf-8">
     </head>
     <body ng-app="ngWeatherStation">
-        <div ng-controller="weatherController">
-            {{forecast}}
+        <div id="viewframe">
+            <div ng-controller="weatherController" ng-init='init()'>
+                <div id="currently">
+                    <skycon icon="forecast.currently.icon" size='200'></skycon>
+                    <p><strong>Currently:</strong> <span ng-bind='forecast.minutely.summary'></span>
+
+                    <p><strong>Feels like:</strong> <span ng-bind='forecast.currently.apparentTemperature | temp'></span></p>
+                </div>
+
+                <div id="nexthour">
+                    <p ng-repeat='hour in forecast.hourly.data'>
+                        <span ng-bind='hour.time * 1000 | date : "medium"'></span>
+
+                    </p>
+
+                </div>
+
+                <div id="morning">
+                    <h2>Morning Commute (8-9am)</h2>
+
+                </div>
+
+                <div id="evening">
+                    <h2>Evening Commute (5-6pm)</h2>
+
+                </div>
+
+
+
+            </div>
+
         </div>
-        
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+    <script src="bower_components/skycons/skycons.js"></script>
+    <script src="bower_components/angular-skycons/angular-skycons.js"></script>
     <script src="app/app.js"></script>
 
     </body>
