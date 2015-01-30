@@ -14,24 +14,23 @@
                     <p><strong>Feels like:</strong> <span ng-bind='forecast.currently.apparentTemperature | temp'></span></p>
                 </div>
 
-                <div id="nexthour">
-                    <p ng-repeat='hour in forecast.hourly.data'>
-                        <span ng-bind='hour.time * 1000 | date : "medium"'></span>
-
-                    </p>
-
+                <div class="commute">
+                    <h2>Next Commute</h2>
+                    <skycon icon="nextCommute.icon" size='100'></skycon>
+                    <span ng-bind="nextCommute.time * 1000 | date: 'medium'"></span>
+                    <p><strong>Chance of rain:</strong> <span ng-bind="nextCommute.precipProbability | percent"></span></p>
+                    <p><strong>Feels like:</strong> <span ng-bind='nextCommute.apparentTemperature | temp'></span></p>
                 </div>
 
-                <div id="morning">
-                    <h2>Morning Commute (8-9am)</h2>
-
+                <div class="commute">
+                    <h2>Next Next Commute</h2>
+                    <skycon icon="nextNextCommute.icon" size='100'></skycon>
+                    <span ng-bind="nextNextCommute.time * 1000 | date: 'medium'"></span>
                 </div>
 
-                <div id="evening">
-                    <h2>Evening Commute (5-6pm)</h2>
-
+                <div id='weekly'>
+                    
                 </div>
-
 
 
             </div>
@@ -41,7 +40,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
     <script src="bower_components/skycons/skycons.js"></script>
     <script src="bower_components/angular-skycons/angular-skycons.js"></script>
+
     <script src="app/app.js"></script>
+    <script src="app/controllers.js"></script>
 
     </body>
 </html>

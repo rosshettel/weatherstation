@@ -3,3 +3,17 @@
     height: 480px;
     border: 1px solid black;
 }
+
+#currently {
+    width: 66%;
+    border: 1px solid gray;
+    text-align: center;
+    float: left;
+}
+
+.commute {
+    width: 16%;
+    border: 1px solid gray;
+    text-align: center;
+    float: left;
+}
