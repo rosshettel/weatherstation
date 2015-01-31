@@ -17,6 +17,9 @@ function calculateNextCommutes() {
         nextCommute.setHours(eveningCommuteHour, 0, 0, 0);
         nextNextCommute.setDate(now.getDate() + 1);
         nextNextCommute.setHours(morningCommuteHour, 0, 0, 0);
+    } else {
+        nextCommute.setHours(morningCommuteHour, 0, 0, 0);
+        nextNextCommute.setHours(eveningCommuteHour, 0, 0, 0);
     }
 
     return {
