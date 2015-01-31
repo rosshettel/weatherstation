@@ -1,9 +1,13 @@
+body {
+    margin: 0px;
+    background-color: black;
+}
+
 #viewframe {
     width: 640px;
     height: 480px;
-    border: 1px solid black;
     position: relative;
-    background-color: black;
+    border: 1px dashed gray;
     color: white;
     font-family: 'Noticia Text', serif;
 }
@@ -16,7 +20,17 @@
     float: left;
 }
 #currently .icon {
-    margin: 20px 0px;
+    width: 200px;
+    height: 200px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+#currently .temp {
+    font-size: 32px;
+}
+#currently .summary {
+    font-size: 20px;
+    font-weight: bold;
 }
 
 

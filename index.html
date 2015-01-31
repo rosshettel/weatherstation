@@ -10,9 +10,8 @@
             <div ng-controller="weatherController" ng-init='init()'>
                 <div id="currently">
                     <skycon icon="forecast.currently.icon" size='200' color='white' class='icon'></skycon>
-                    <p><strong><span ng-bind='forecast.minutely.summary'></strong></span>
-
-                    <p><strong>Feels like:</strong> <span ng-bind='forecast.currently.apparentTemperature | temp'></span></p>
+                    <div class='temp' ng-bind='forecast.currently.apparentTemperature | temp'></div>
+                    <div class='summary' ng-bind='forecast.currently.summary'></div>
                 </div>
 
                 <div id='commutes'>
@@ -23,7 +22,7 @@
 
                         <div class="temp" ng-bind='nextCommute.apparentTemperature | temp'></div>
                         <div ng-if='nextCommute.precipProbability > 0'><strong>Rain:</strong> <span ng-bind="nextCommute.precipProbability | percent"></span></div>
-                        <div ng-if='nextCommute.windSpeed'><strong>Wind:</strong> <span ng-bind="nextCommute.windSpeed + ' mph'"></span></div>
+                        <div ng-if='nextCommute.windSpeed'><span ng-bind="nextCommute.windSpeed + ' mph'"></span></div>
                     </div>
 
                     <div class="commute">
@@ -32,7 +31,7 @@
 
                         <div class="temp" ng-bind='nextNextCommute.apparentTemperature | temp'></div>
                         <div ng-if='nextNextCommute.precipProbability > 0'><strong>Rain:</strong> <span ng-bind="nextNextCommute.precipProbability | percent"></span></div>
-                        <div ng-if='nextNextCommute.windSpeed'><strong>Wind:</strong> <span ng-bind="nextNextCommute.windSpeed + ' mph'"></span></div>
+                        <div ng-if='nextNextCommute.windSpeed'><span ng-bind="nextNextCommute.windSpeed + ' mph'"></span></div>
                     </div>
 
 
