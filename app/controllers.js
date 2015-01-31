@@ -9,7 +9,7 @@ function calculateNextCommutes() {
 
     //this should probably be tested ¯\_(ツ)_/¯
     if (now.getHours() > eveningCommuteHour) {
-        nextCommute.setDate(now.getDate + 1);
+        nextCommute.setDate(now.getDate() + 1);
         nextCommute.setHours(morningCommuteHour, 0, 0, 0);
         nextNextCommute.setDate(now.getDate() + 1);
         nextNextCommute.setHours(eveningCommuteHour, 0, 0, 0);
@@ -30,7 +30,6 @@ function findCommuteWeather(time, hourlyData) {
         var hourDate = new Date(hour.time * 1000);  //multiple by 1000 because forecast returns unix timestamps
         return hourDate.getTime() === time.getTime();
     });
-    console.log(filtered[0]);
     return filtered[0];
 }
 
