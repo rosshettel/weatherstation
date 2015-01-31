@@ -28,7 +28,7 @@ app.filter('temp', function ($filter) {
             precision = 1;
         }
         var numberFilter = $filter('number');
-        return numberFilter(input, precision) + '\u00B0C';
+        return numberFilter(input, precision) + '\u00B0';
     };
 });
 

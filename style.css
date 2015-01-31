@@ -8,23 +8,40 @@
     font-family: 'Noticia Text', serif;
 }
 
+
 #currently {
     width: 60%;
     height: 330px;
     text-align: center;
     float: left;
 }
-
 #currently .icon {
-    margin: 15px 0px;
+    margin: 20px 0px;
 }
 
+
+#commutes {
+    width: 40%;
+    text-align: center;
+    float: left;
+}
+#commutes h2 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
 .commute {
-    width: 19.9%;
+    width: 50%;
     height: 330px;
     text-align: center;
     float: left;
 }
+.commute h3 {
+    margin-top: 5px;
+}
+.commute .temp {
+    font-size: 28px;
+}
+
 
 #weekly {
     width: 100%;
@@ -32,18 +49,15 @@
     position: absolute;
     bottom: 0;
 }
-
 .weekly-day {
     width: 12.5%;
     float: left;
     text-align: center;
 }
-
 .weekly-day h3 {
     margin-bottom: 10px;
     margin-top: 0px;
 }
-
 .weekly-day .icon {
     width: 50px;
     height: 50px;
