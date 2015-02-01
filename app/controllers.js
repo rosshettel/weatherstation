@@ -53,8 +53,8 @@ app.controller('weatherController', function ($scope, ForecastIoFactory) {
     $scope.init = function () {
         pollForecast();
         setInterval(function () {
-            console.log('polling weather every hour')
+            console.log('polling weather every 15 minutes')
             pollForecast();
-        }, 1000 * 60 * 60);    //poll every hour
+        }, 1000 * 60 * 15);    //poll every 15 minutes
     }
 });
