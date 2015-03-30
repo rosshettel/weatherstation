@@ -36,7 +36,7 @@ function findCommuteWeather(time, hourlyData) {
     return filtered[0];
 }
 
-app.controller('weatherController', function ($scope, ForecastIoFactory) {
+app.controller('weatherCtrl', function ($scope, ForecastIoFactory) {
     var pollForecast = function pollForecast() {
             var commutes = calculateNextCommutes();
             ForecastIoFactory.currentForecast(function (err, data) {
