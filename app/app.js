@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('ngWeatherStation', ['angular-skycons', 'ngRoute']);
+var app = angular.module('ngWeatherStation', ['angular-skycons']);
 
 app.factory('ForecastIoFactory', function ($http) {
     var apiKey = 'bcb8286266a6443a96f802ac80bb4e7b',
