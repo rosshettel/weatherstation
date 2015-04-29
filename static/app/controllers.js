@@ -17,6 +17,9 @@ function calculateNextCommutes() {
         nextCommute.setHours(eveningCommuteHour, 0, 0, 0);
         nextNextCommute.setDate(now.getDate() + 1);
         nextNextCommute.setHours(morningCommuteHour, 0, 0, 0);
+    } else {
+        nextCommute.setHours(morningCommuteHour, 0, 0, 0);
+        nextNextCommute.setHours(eveningCommuteHour, 0, 0, 0);
     }
 
     return {
@@ -50,8 +53,8 @@ app.controller('weatherController', function ($scope, ForecastIoFactory) {
     $scope.init = function () {
         pollForecast();
         setInterval(function () {
-            console.log('polling weather every hour')
+            console.log('polling weather every 15 minutes')
             pollForecast();
-        }, 1000 * 60 * 60);    //poll every hour
+        }, 1000 * 60 * 15);    //poll every 15 minutes
     }
 });
