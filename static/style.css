@@ -7,7 +7,7 @@ body {
     width: 620px;
     height: 460px;
     position: relative;
-    /* border: 1px dashed gray; */
+    border: 1px dashed gray; 
     color: white;
     font-family: 'Noticia Text', serif;
 }

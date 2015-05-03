@@ -36,7 +36,7 @@ function findCommuteWeather(time, hourlyData) {
     return filtered[0];
 }
 
-app.controller('weatherController', function ($scope, ForecastIoFactory) {
+app.controller('weatherCtrl', function ($scope, ForecastIoFactory) {
     var pollForecast = function pollForecast() {
             var commutes = calculateNextCommutes();
             ForecastIoFactory.currentForecast(function (err, data) {
@@ -59,7 +59,7 @@ app.controller('weatherController', function ($scope, ForecastIoFactory) {
     }
 });
 
-app.controller('wrapperCtrl', ['$route', '$interval', '$location', function ($route, $interval, $location) {
+app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$location', function ($scope, $route, $interval, $location) {
     var index = 0,
         routesArray = Object.keys($route.routes).reduce(function (routes, route) {
             if (route.length > 1 && route.substr(-1) !== '/') {
@@ -68,8 +68,12 @@ app.controller('wrapperCtrl', ['$route', '$interval', '$location', function ($ro
             return routes;
         }, []);
 
-    $interval(function () {
-        index = (index + 1) % routesArray.length;
-        $location.path(routesArray[index]);
-    }, 1000);
+    $scope.initSkycon = 'partly-cloudy-day';
+
+    if ($location.search().rotate !== 'false') {
+        $interval(function () {
+            index = (index + 1) % routesArray.length;
+            $location.path(routesArray[index]);
+        }, 15000);
+    }
 }]);
