@@ -12,6 +12,18 @@ body {
     font-family: 'Noticia Text', serif;
 }
 
+.init {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.init .initContent {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
 
 #currently {
     width: 60%;
