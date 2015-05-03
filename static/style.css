@@ -7,9 +7,21 @@ body {
     width: 620px;
     height: 460px;
     position: relative;
-    /* border: 1px dashed gray; */
+    /*border: 1px dashed gray; */
     color: white;
     font-family: 'Noticia Text', serif;
+}
+
+.init {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.init .initContent {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }
 
 
@@ -18,6 +30,10 @@ body {
     height: 330px;
     text-align: center;
     float: left;
+}
+.rightWeather #currently {
+    float: right;
+    margin-top: 145px;
 }
 #currently .icon {
     width: 200px;
@@ -38,6 +54,10 @@ body {
     width: 40%;
     text-align: center;
     float: left;
+}
+.rightWeather #commutes {
+    
+    margin-top: 145px;
 }
 #commutes h2 {
     margin-top: 15px;
@@ -62,6 +82,9 @@ body {
     height: 145px;
     position: absolute;
     bottom: 0;
+}
+.rightWeather #weekly {
+    top: 0;
 }
 .weekly-day {
     width: 12.5%;

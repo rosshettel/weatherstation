@@ -1,4 +1,4 @@
-<div>
+<div ng-init="init()" class="rightWeather">
     <div id="currently">
         <skycon icon="forecast.currently.icon" size='200' color='white' class='icon'></skycon>
         <div class='temp' ng-bind='forecast.currently.apparentTemperature | temp'></div>
@@ -24,8 +24,6 @@
             <div ng-if='nextNextCommute.precipProbability > 0'><strong>Rain:</strong> <span ng-bind="nextNextCommute.precipProbability | percent"></span></div>
             <div ng-if='nextNextCommute.windSpeed'><span ng-bind="nextNextCommute.windSpeed + ' mph'"></span></div>
         </div>
-
-
     </div>
 
     <div id='weekly'>
