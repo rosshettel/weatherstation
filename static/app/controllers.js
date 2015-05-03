@@ -58,3 +58,18 @@ app.controller('weatherController', function ($scope, ForecastIoFactory) {
         }, 1000 * 60 * 15);    //poll every 15 minutes
     }
 });
+
+app.controller('wrapperCtrl', ['$route', '$interval', '$location', function ($route, $interval, $location) {
+    var index = 0,
+        routesArray = Object.keys($route.routes).reduce(function (routes, route) {
+            if (route.length > 1 && route.substr(-1) !== '/') {
+                routes.push(route);
+            }
+            return routes;
+        }, []);
+
+    $interval(function () {
+        index = (index + 1) % routesArray.length;
+        $location.path(routesArray[index]);
+    }, 1000);
+}]);

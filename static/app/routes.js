@@ -1,14 +1,11 @@
 angular.module('ngWeatherStation').config(['$routeProvider', function ($routeProvider) {
 	$routeProvider
-		.when('/', {
-			templateUrl: 'templates/init.html'
-		})
 		.when('/leftWeather', {
-			templateUrl: 'templates/leftWeather.html',
+			templateUrl: 'static/templates/leftWeather.html',
 			controller: 'weatherCtrl'
 		})
 		.when('/rightWeather', {
-			templateUrl: 'templates/rightWeather.html',
+			templateUrl: 'static/templates/rightWeather.html',
 			controller: 'weatherCtrl'
 		});
 }]);

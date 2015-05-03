@@ -6,7 +6,7 @@
         <link href='http://fonts.googleapis.com/css?family=Noticia+Text' rel='stylesheet' type='text/css'>
     </head>
     <body ng-app="ngWeatherStation">
-        <div id="viewframe">
+        <div id="viewframe" ng-controller='wrapperCtrl'>
             <div ng-controller="weatherController" ng-init='init()'>
                 <div id="currently">
                     <skycon icon="forecast.currently.icon" size='200' color='white' class='icon'></skycon>
@@ -54,9 +54,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
     <script src="static/bower_components/skycons/skycons.js"></script>
     <script src="static/bower_components/angular-skycons/angular-skycons.js"></script>
+    <script src="static/bower_components/angular-route/angular-route.js"></script>
+
 
     <script src="static/app/app.js"></script>
     <script src="static/app/controllers.js"></script>
+    <script src="static/app/routes.js"></script>
 
     </body>
 </html>
