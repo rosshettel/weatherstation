@@ -7,7 +7,7 @@ body {
     width: 620px;
     height: 460px;
     position: relative;
-    /*border: 1px dashed gray; */
+    border: 1px dashed gray;
     color: white;
     font-family: 'Noticia Text', serif;
 }
@@ -65,7 +65,7 @@ body {
 }
 .commute {
     width: 50%;
-    height: 330px;
+    /*height: 300px;*/
     text-align: center;
     float: left;
 }
