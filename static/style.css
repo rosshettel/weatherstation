@@ -1,15 +1,14 @@
 body {
-    margin: 0px;
-    background-color: black;
+    margin: 0;
 }
 
 #viewframe {
-    width: 620px;
-    height: 460px;
+    width: 640px;
+    height: 480px;
     overflow: hidden;
     position: relative;
-    border: 1px dashed gray;
     color: white;
+    background-color: black;
     font-family: 'Noticia Text', serif;
 }
 
