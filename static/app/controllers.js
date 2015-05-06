@@ -70,3 +70,7 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
         }, 15000);
     }
 }]);
+
+app.controller('fullScreenImageCtrl', ['$scope', 'imageUrl', function ($scope, imageUrl) {
+    $scope.imageUrl = imageUrl;
+}]);
