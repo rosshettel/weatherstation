@@ -1,6 +1,6 @@
 var app = angular.module('ngWeatherStation');
 
-app.controller('weatherCtrl', function ($scope, ForecastIoFactory) {
+app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, ForecastIoFactory) {
     function calculateNextCommutes() {
         var now = new Date(),
             nextCommute = new Date(),
@@ -49,7 +49,7 @@ app.controller('weatherCtrl', function ($scope, ForecastIoFactory) {
             }
         });
     };
-});
+}]);
 
 app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$location', function ($scope, $route, $interval, $location) {
     var index = 0,
