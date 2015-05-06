@@ -4,8 +4,9 @@ body {
 }
 
 #viewframe {
-    width: 640px;
-    height: 480px;
+    width: 630px;
+    height: 470px;
+    overflow: hidden;
     position: relative;
     border: 1px dashed gray;
     color: white;
