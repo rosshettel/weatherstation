@@ -54,12 +54,16 @@ app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, 
 app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$location', function ($scope, $route, $interval, $location) {
     var index = 0,
         skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
-        routesArray = Object.keys($route.routes).reduce(function (routes, route) {
-            if (route.length > 1 && route.substr(-1) !== '/') {
-                routes.push(route);
-            }
-            return routes;
-        }, []);
+        routesArray = [
+            '/leftWeather',
+            '/weatherRadar',
+            '/rightWeather',
+            '/noaaWebcam',
+            '/leftWeather',
+            '/grantParkCam',
+            '/rightWeather',
+            '/loopCam'
+        ];
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
 
@@ -67,7 +71,7 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
         $interval(function () {
             index = (index + 1) % routesArray.length;
             $location.path(routesArray[index]);
-        }, 15000);
+        }, 10000);
     }
 }]);
 
