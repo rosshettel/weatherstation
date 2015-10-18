@@ -36,7 +36,7 @@ app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, 
         });
         return filtered[0];
     }
-    
+
     $scope.init = function () {
         var commutes = calculateNextCommutes();
         ForecastIoFactory.currentForecast(function (err, data) {
@@ -71,7 +71,7 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
         $interval(function () {
             index = (index + 1) % routesArray.length;
             $location.path(routesArray[index]);
-        }, 10000);
+        }, 11000);
     }
 }]);
 

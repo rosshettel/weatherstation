@@ -4,14 +4,14 @@ angular.module('ngWeatherStation').config(['$routeProvider', function ($routePro
         grantParkCam = 'http://cdn.abclocal.go.com/three/wls/webcam/ColumbiaCam.jpg',
         loopCam = 'http://cdn.abclocal.go.com/three/wls/webcam/Loopscape.jpg',
         imageChannel = function (imgSrc) {
-        return {
-            templateUrl: 'static/templates/fullScreenImage.html',
-            controller: 'fullScreenImageCtrl',
-            resolve: {
-                imageUrl: function () { return imgSrc; }
-            }
+            return {
+                templateUrl: 'static/templates/fullScreenImage.html',
+                controller: 'fullScreenImageCtrl',
+                resolve: {
+                    imageUrl: function () { return imgSrc; }
+                }
+            };
         };
-    };
 
 
     $routeProvider
