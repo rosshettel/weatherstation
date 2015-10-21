@@ -71,7 +71,7 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
         $interval(function () {
             index = (index + 1) % routesArray.length;
             $location.path(routesArray[index]);
-        }, 11000);
+        }, 12500);
     }
 }]);
 
