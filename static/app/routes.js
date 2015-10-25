@@ -33,7 +33,7 @@ angular.module('ngWeatherStation').config(['$routeProvider', function ($routePro
             templateUrl: 'static/templates/rightWeather.html',
             controller: 'weatherCtrl'
         })
-        .when('/weatherRadar', imageChannel(weatherRadar))
+        .when('/weatherRadar', imageChannel(weatherRadar()))
         .when('/noaaWebcam', imageChannel(noaaWebcam))
         .when('/grantParkCam', imageChannel(grantParkCam))
         .when('/loopCam', imageChannel(loopCam));
