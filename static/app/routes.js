@@ -9,7 +9,7 @@ angular.module('ngWeatherStation').config(['$routeProvider', function ($routePro
                            '/animatedradar/q/60614.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1';
             console.log('radarURL', radarURL);
             return radarURL;
-        }
+        },
         imageChannel = function (imgSrc) {
             return {
                 templateUrl: 'static/templates/fullScreenImage.html',
