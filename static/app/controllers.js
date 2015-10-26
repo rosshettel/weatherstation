@@ -70,9 +70,23 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
     if ($location.search().rotate !== 'false') {
         $interval(function () {
             index = (index + 1) % routesArray.length;
+            console.log('displaying', routesArray[index]);
             $location.path(routesArray[index]);
-        }, 12500);
+        }, 10000);
     }
+}]);
+
+app.controller('weatherRadarCtrl', ['$scope', function ($scope) {
+    var getRadarUrl = function () {
+        var tokens = ['25d29ac708c38d34', 'd0dba01007c9d499'];
+        return [
+            'http://api.wunderground.com/api/',
+            tokens[Math.floor(Math.random() * tokens.length)],
+            '/animatedradar/q/60614.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1'
+        ].join('');
+    };
+
+    $scope.imageUrl = getRadarUrl();
 }]);
 
 app.controller('fullScreenImageCtrl', ['$scope', 'imageUrl', function ($scope, imageUrl) {
