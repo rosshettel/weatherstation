@@ -61,3 +61,18 @@ app.filter('percent', function ($filter) {
         return $filter('number')(input * 100, decimals) + '%';
     };
 });
+
+app.directive('dailyWeather', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            hourlyWeather: '=weather'
+        },
+        link: function (scope, element, attrs) {
+            console.log('hourlyWeather', scope.hourlyWeather);
+            var svg = d3.select(element[0])
+                .append('svg');
+
+        }
+    }
+})

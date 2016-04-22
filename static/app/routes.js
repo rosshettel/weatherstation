@@ -29,6 +29,10 @@ angular.module('ngWeatherStation').config(['$routeProvider', function ($routePro
             templateUrl: 'static/templates/fullScreenImage.html',
             controller: 'weatherRadarCtrl'
         })
+        .when('/dailyWeather', {
+            templateUrl: 'static/templates/dailyWeather.html',
+            controller: 'dailyWeatherCtrl'
+        })
         .when('/noaaWebcam', imageChannel(noaaWebcam))
         .when('/grantParkCam', imageChannel(grantParkCam))
         .when('/loopCam', imageChannel(loopCam));

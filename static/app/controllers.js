@@ -51,6 +51,19 @@ app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, 
     };
 }]);
 
+app.controller('dailyWeatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, ForecastIoFactory) {
+    $scope.init = function () {
+        ForecastIoFactory.currentForecast(function (err, data) {
+            if (err) {
+                $scope.forecastError = err;
+            } else {
+                $scope.forecast = data;
+
+            }
+        });
+    }
+}]);
+
 app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$location', function ($scope, $route, $interval, $location) {
     var index = 0,
         skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
@@ -67,13 +80,13 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
 
-    if ($location.search().rotate !== 'false') {
-        $interval(function () {
+    $interval(function () {
+        if ($location.search().rotate !== 'false') {
             index = (index + 1) % routesArray.length;
             console.log('displaying', routesArray[index]);
             $location.path(routesArray[index]);
-        }, 10000);
-    }
+        }
+    }, 10000);  //rotate every 10 seconds
 }]);
 
 app.controller('weatherRadarCtrl', ['$scope', function ($scope) {
