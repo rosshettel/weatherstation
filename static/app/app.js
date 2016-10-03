@@ -10,7 +10,7 @@ app.factory('ForecastIoFactory', function ($http, $interval) {
         cachedForecast;
 
     function pollForecastIO(callback) {
-        var url = ['https://api.forecast.io/forecast/', apiKey, '/', lat, ',', lon, '?callback=JSON_CALLBACK'].join('');
+        var url = ['https://api.darksky.net/forecast/', apiKey, '/', lat, ',', lon, '?callback=JSON_CALLBACK'].join('');
 
         $http.jsonp(url)
             .success(function (data) {
