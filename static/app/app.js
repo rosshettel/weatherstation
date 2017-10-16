@@ -4,8 +4,8 @@ var app = angular.module('ngWeatherStation', ['angular-skycons', 'ngRoute']);
 
 app.factory('ForecastIoFactory', function ($http, $interval) {
     var apiKey = 'bcb8286266a6443a96f802ac80bb4e7b',
-        lat = '41.9158100',
-        lon = '-87.6532760',
+        lat = '45.5751419',
+        lon = '-122.7093558',
         interval = 1000 * 60 * 15,  //15 minutes
         cachedForecast;
 
