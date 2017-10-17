@@ -6,7 +6,7 @@ app.factory('ForecastIoFactory', function ($http, $interval) {
     var apiKey = 'bcb8286266a6443a96f802ac80bb4e7b',
         lat = '45.5751419',
         lon = '-122.7093558',
-        interval = 1000 * 60 * 15,  //15 minutes
+        interval = 1000 * 60 * 5,  //5 minutes, we get 1000 free calls a day
         cachedForecast;
 
     function pollForecastIO(callback) {

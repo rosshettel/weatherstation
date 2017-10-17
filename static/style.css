@@ -25,11 +25,28 @@ body {
 }
 
 
+#clocks {
+    float: left;
+    width: 50%;
+    margin-top: 20px;
+}
+#clocks .clock {
+    text-align: center;
+}
+.clock .time {
+    font-size: 60px;
+}
+.clock .title {
+    font-size: 25px;
+    margin-top: 0px;
+}
+
+
 #currently {
-    width: 60%;
+    width: 50%;
     height: 330px;
     text-align: center;
-    float: left;
+    float: right;
 }
 .rightWeather #currently {
     float: right;

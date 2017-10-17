@@ -1,0 +1,28 @@
+<div ng-init="init()">
+    <div id="clocks">
+        <div class="clock" id="chicago">
+            <span class="time">{{ time.chicago }}</span>
+            <p class="title">Chicago</p>
+        </div>
+        <div class="clock" id="portland">
+            <span class="time">{{ time.portland }}</span>
+            <p class="title">Portland</p>
+        </div>
+    </div>
+
+    <div id="currently">
+        <skycon icon="current.icon" size='200' color='white' class='icon'></skycon>
+        <div class='temp' ng-bind='current.temperature | temp'></div>
+        <div class="wind" ng-bind='current.wind'></div>
+        <div class='summary' ng-bind='current.summary'></div>
+    </div>
+
+    <div id='weekly'>
+        <div class='weekly-day' ng-repeat='day in forecast.daily.data'>
+            <h3 ng-bind="day.time * 1000 | date: 'EEE'"></h3>
+            <skycon icon="day.icon" size='50' color='white' class='icon'></skycon>
+            <div class='high'><strong>H:</strong> <span ng-bind="day.temperatureMax | temp: 0"></span></div>
+            <div class='low'><strong>L:</strong> <span ng-bind="day.temperatureMin | temp: 0"></span></div>
+        </div>
+    </div>
+</div>

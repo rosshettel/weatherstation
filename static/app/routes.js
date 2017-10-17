@@ -1,4 +1,5 @@
 angular.module('ngWeatherStation').config(['$routeProvider', function ($routeProvider) {
+    
     var noaaWebcam = 'http://www.glerl.noaa.gov/metdata/chi/chi1.jpg',
         grantParkCam = 'http://cdn.abclocal.go.com/three/wls/webcam/ColumbiaCam.jpg',
         loopCam = 'http://cdn.abclocal.go.com/three/wls/webcam/Loopscape.jpg',
@@ -11,19 +12,18 @@ angular.module('ngWeatherStation').config(['$routeProvider', function ($routePro
                 }
             };
         };
-
-
+        
     $routeProvider
         .when('/', {
             templateUrl: 'static/templates/init.html'
         })
-        .when('/leftWeather', {
-            templateUrl: 'static/templates/leftWeather.html',
-            controller: 'weatherCtrl'
+        .when('/today', {
+            templateUrl: 'static/templates/today.html',
+            controller: 'todayCtrl'
         })
-        .when('/rightWeather', {
-            templateUrl: 'static/templates/rightWeather.html',
-            controller: 'weatherCtrl'
+        .when('/forecast', {
+            templateUrl: 'static/templates/forecast.html',
+            controller: 'forecastCtrl'
         })
         .when('/weatherRadar', {
             templateUrl: 'static/templates/fullScreenImage.html',

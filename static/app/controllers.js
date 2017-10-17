@@ -1,5 +1,41 @@
 var app = angular.module('ngWeatherStation');
 
+app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function ($scope, $timeout, ForecastIoFactory) {
+    $scope.init = function () {
+        ForecastIoFactory.currentForecast(function (err, data) {
+            if (err) {
+                $scope.forecastError = err;
+            } else {
+                $scope.forecast = data;
+                $scope.current = {
+                    icon: data.currently.icon,
+                    summary: data.minutely.summary,
+                    temperature: data.currently.temperature,
+                    apparenttemperature: data.currently.apparentTemperature,
+                    windspeed: data.currently.windSpeed,
+                    winddirection: data.currently.windBearing   //todo - convert this to english
+                };
+            }
+        });
+
+
+        function getTime() {
+            return {
+                chicago: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago'}),
+                portland: (new Date()).toLocaleString([], {hour: '2-digit', minute: '2-digit', timeZone: 'America/Los_Angeles'}),
+            };
+        }
+
+        $scope.time = getTime();
+
+        var tick = function () {
+            $scope.time = getTime();
+            $timeout(tick, 1000);
+        };
+        $timeout(tick, 1000);
+    }
+}]);
+
 app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, ForecastIoFactory) {
     function calculateNextCommutes() {
         var now = new Date(),
@@ -55,14 +91,15 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
     var index = 0,
         skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
         routesArray = [
-            '/leftWeather',
+            '/today',
+            // '/leftWeather',
             '/weatherRadar',
-            '/rightWeather',
-            '/noaaWebcam',
-            '/leftWeather',
-            '/grantParkCam',
-            '/rightWeather',
-            '/loopCam'
+            // '/rightWeather',
+            // '/noaaWebcam',
+            // '/leftWeather',
+            // '/grantParkCam',
+            // '/rightWeather',
+            // '/loopCam'
         ];
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
@@ -72,17 +109,19 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
             index = (index + 1) % routesArray.length;
             console.log('displaying', routesArray[index]);
             $location.path(routesArray[index]);
-        }, 10000);
+        }, 1000 * 7);
+    } else {
+        console.log('rotate set to false, staying on this page');
     }
 }]);
 
 app.controller('weatherRadarCtrl', ['$scope', function ($scope) {
     var getRadarUrl = function () {
-        var tokens = ['25d29ac708c38d34', 'd0dba01007c9d499'];
+        var tokens = ['d0dba01007c9d499'];
         return [
             'http://api.wunderground.com/api/',
             tokens[Math.floor(Math.random() * tokens.length)],
-            '/animatedradar/q/60614.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1'
+            '/animatedradar/q/97217.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
         ].join('');
     };
 
