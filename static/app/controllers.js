@@ -11,7 +11,7 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                     icon: data.currently.icon,
                     summary: data.minutely.summary,
                     temperature: data.currently.temperature,
-                    apparenttemperature: data.currently.apparentTemperature,
+                    truetemperature: data.currently.apparentTemperature,
                     windspeed: data.currently.windSpeed,
                     winddirection: data.currently.windBearing   //todo - convert this to english
                 };

@@ -53,17 +53,18 @@ body {
     margin-top: 145px;
 }
 #currently .icon {
-    width: 200px;
-    height: 200px;
+    width: 125px;
+    height: 125px;
     margin-top: 20px;
     margin-bottom: 0px;
 }
 #currently .temp {
-    font-size: 32px;
+    font-size: 50px;
 }
 #currently .summary {
     font-size: 20px;
     font-weight: bold;
+    margin-top: 15px;
 }
 
 
