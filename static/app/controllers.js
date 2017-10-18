@@ -43,7 +43,6 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                         text: ""
                     },
                     series: [
-                        
                         {
                             name: 'Temperature',
                             data: data.hourly.data.map(function (data) {
@@ -67,35 +66,40 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                                         return Math.round(this.y) + "°";
                                     }
                                 }
-                            }
+                            },
+                            yAxis: 1
                         },
-                        // {
-                        //     name: 'Precipitation',
-                        //     data: data.hourly.data.map(function (data) {
-                        //         return data.precipProbability * 100;
-                        //     }).slice(0,24),
-                        //     type: 'areaspline',
-                        //     marker: {
-                        //         enabled: false
-                        //     },
-                        //     zIndex: 2
-                        // },
+                        {
+                            name: 'Precipitation',
+                            data: data.hourly.data.map(function (data) {
+                                return {
+                                    y: data.precipProbability * 100,
+                                    x: data.time
+                                };
+                            }).slice(0,24),
+                            type: 'areaspline',
+                            marker: {
+                                enabled: false
+                            },
+                            zIndex: 2
+                        },
                     ],
-                    // yAxis: [
-                    //     {
-                    //         title: {
-                    //             text: ""
-                    //         }
-                    //     },
-                    //     {
-                    //         title: {
-                    //             text: ""
-                    //         },
-                    //         labels: {
-                    //             enabled: false
-                    //         }
-                    //     }
-                    // ],
+                    yAxis: [
+                        {
+                            title: {
+                                text: ""
+                            },
+                            opposite: true
+                        },
+                        {
+                            title: {
+                                text: ""
+                            },
+                            labels: {
+                                enabled: false
+                            }
+                        }
+                    ],
                     xAxis: [{
                         type: 'linear',
                         tickLength: 0,
@@ -122,9 +126,9 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
 
         var tick = function () {
             $scope.time = getTime();
-            $timeout(tick, 1000 * 60);       //todo - change this to every minute or 30 seconds
+            $timeout(tick, 1000);       //todo - change this to every minute or 30 seconds
         };
-        $timeout(tick, 1000 * 60);
+        $timeout(tick, 1000);
     }
 }]);
 
