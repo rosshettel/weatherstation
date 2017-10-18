@@ -89,15 +89,18 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                             title: {
                                 text: ""
                             },
+                            gridLineWidth: 0,
                             opposite: true
                         },
                         {
                             title: {
                                 text: ""
                             },
+                            gridLineWidth: 0,
                             labels: {
                                 enabled: false
-                            }
+                            },
+                            maxPadding: 0.05
                         }
                     ],
                     xAxis: [{
