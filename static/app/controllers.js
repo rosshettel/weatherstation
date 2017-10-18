@@ -2,6 +2,7 @@ var app = angular.module('ngWeatherStation');
 
 app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function ($scope, $timeout, ForecastIoFactory) {
     $scope.init = function () {
+        //todo - use a resolve to load this before rendering https://stackoverflow.com/a/16620145
         ForecastIoFactory.currentForecast(function (err, data) {
             if (err) {
                 $scope.forecastError = err;
@@ -15,9 +16,100 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                     windspeed: data.currently.windSpeed,
                     winddirection: data.currently.windBearing   //todo - convert this to english
                 };
+
+                $scope.chartConfig = {
+                    options: {
+                        chart: {
+                            alignTicks: false,
+                            backgroundColor: 'black'
+
+                        },
+                        tooltip: {
+                            enabled: false
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        credits: {
+                            enabled: false
+                        }
+                    },
+                    loading: false,
+                    size: {
+                        wdith: 480,
+                        height: 180
+                    },
+                    title: {
+                        text: ""
+                    },
+                    series: [
+                        
+                        {
+                            name: 'Temperature',
+                            data: data.hourly.data.map(function (data) {
+                                return {
+                                    y: data.temperature,
+                                    x: data.time
+                                };
+                            }).slice(0,24),
+                            type: 'spline',
+                            marker: {
+                                enabled: false
+                            },
+                            color: 'white',
+                            dataLabels: {
+                                enabled: true,
+                                color: 'white',
+                                formatter: function () {
+                                    if (this.point.index % 2 == 0) {
+                                        return "";
+                                    } else {
+                                        return Math.round(this.y) + "°";
+                                    }
+                                }
+                            }
+                        },
+                        // {
+                        //     name: 'Precipitation',
+                        //     data: data.hourly.data.map(function (data) {
+                        //         return data.precipProbability * 100;
+                        //     }).slice(0,24),
+                        //     type: 'areaspline',
+                        //     marker: {
+                        //         enabled: false
+                        //     },
+                        //     zIndex: 2
+                        // },
+                    ],
+                    // yAxis: [
+                    //     {
+                    //         title: {
+                    //             text: ""
+                    //         }
+                    //     },
+                    //     {
+                    //         title: {
+                    //             text: ""
+                    //         },
+                    //         labels: {
+                    //             enabled: false
+                    //         }
+                    //     }
+                    // ],
+                    xAxis: [{
+                        type: 'linear',
+                        tickLength: 0,
+                        labels: {
+                            formatter: function () {
+                                var date = new Date(this.value * 1000);
+                                return date.toLocaleString('en-US', {hour: 'numeric', hour12: true});
+                            }
+                        }
+                    }]
+                };
+                console.log($scope.chartConfig);
             }
         });
-
 
         function getTime() {
             return {
@@ -30,9 +122,9 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
 
         var tick = function () {
             $scope.time = getTime();
-            $timeout(tick, 1000);
+            $timeout(tick, 1000 * 60);       //todo - change this to every minute or 30 seconds
         };
-        $timeout(tick, 1000);
+        $timeout(tick, 1000 * 60);
     }
 }]);
 

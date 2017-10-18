@@ -27,11 +27,12 @@ body {
 
 #clocks {
     float: left;
-    width: 50%;
-    margin-top: 20px;
-}
-#clocks .clock {
+    width: 45%;
+    height: 300px;
     text-align: center;
+}
+#clocks #chicago {
+    padding-top: 27px;
 }
 .clock .time {
     font-size: 60px;
@@ -43,8 +44,8 @@ body {
 
 
 #currently {
-    width: 50%;
-    height: 330px;
+    width: 55%;
+    height: 300px;
     text-align: center;
     float: right;
 }
