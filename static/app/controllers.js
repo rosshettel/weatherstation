@@ -116,7 +116,6 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
                         }
                     }]
                 };
-                console.log($scope.chartConfig);
             }
         });
 
@@ -131,7 +130,7 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
 
         var tick = function () {
             $scope.time = getTime();
-            $timeout(tick, 1000);       //todo - change this to every minute or 30 seconds
+            $timeout(tick, 1000);
         };
         $timeout(tick, 1000);
     }
@@ -261,7 +260,6 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
                 }
             }]
         };
-        console.log($scope.chartConfig);
     })
 });
 
@@ -293,24 +291,27 @@ app.controller('webcamCtrl', function ($scope) {
     $scope.imageUrl = cams[Math.floor(Math.random() * cams.length)];
 });
 
-app.controller('channelRotationCtrl', function ($scope, $route, $interval, $location, ForecastIO) {
-    var index = 0,
-        skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
+app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, ForecastIO) {
+    var skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
+        index = -1,
         routesArray = [
-            '/today',
-            '/weatherRadar',
-            '/forecast',
-            '/webcam'
+            {route: '/today', time: 15},
+            {route: '/weatherRadar', time: 8},
+            {route: '/webcam', time: 5},
+            {route: '/forecast', time: 10},
+            {route: '/webcam', time: 4}
         ];
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
 
     if ($location.search().rotate !== 'false') {
-        $interval(function () {
+        var loop = function () {
             index = (index + 1) % routesArray.length;
-            console.log('displaying', routesArray[index]);
-            $location.path(routesArray[index]);
-        }, 1000 * 7);
+            console.log('displaying ' + routesArray[index].route + ' for ' + routesArray[index].time + ' seconds');
+            $location.path(routesArray[index].route);
+            $timeout(loop, 1000 * routesArray[index].time);
+        }
+        $timeout(loop, 1000 * 5);
     } else {
         console.log('rotate set to false, staying on this page');
     }
