@@ -188,11 +188,26 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
                     dataLabels: {
                         enabled: true,
                         color: 'white',
+                        allowOverlap: true,
                         formatter: function () {
-                            // console.log(this.point);
-                            if (this.point.index % 5 == 0) {
-                                console.log(this.point.index);
-                                return Math.round(this.y) + "°";
+                            var splits = [0,23,47,71,95,119,143,168],
+                                subset;
+
+                            for (var i = 0; i < splits.length; i++) {
+                                if (this.point.index <= splits[i + 1] && this.point.index >= splits[i]) {
+                                    subset = this.series.data.slice(splits[i], splits[i + 1]).map(function (data) {
+                                        return data.y;
+                                    });
+                                    break;
+                                }
+                            }
+
+                            var max = Math.max.apply(null, subset),
+                                min = Math.min.apply(null, subset),
+                                point = this.point.y;
+
+                            if (this.point.y == min || this.point.y == max) {
+                                return Math.round(this.point.y) + "°";
                             } else {
                                 return "";
                             }
