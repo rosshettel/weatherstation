@@ -49,10 +49,6 @@ body {
     text-align: center;
     float: right;
 }
-.rightWeather #currently {
-    float: right;
-    margin-top: 145px;
-}
 #currently .icon {
     width: 125px;
     height: 125px;
@@ -69,44 +65,13 @@ body {
 }
 
 
-#commutes {
-    width: 40%;
-    text-align: center;
-    float: left;
-}
-.rightWeather #commutes {
-    
-    margin-top: 145px;
-}
-#commutes h2 {
-    margin-top: 15px;
-    margin-bottom: 5px;
-}
-.commute {
-    width: 50%;
-    /*height: 300px;*/
-    text-align: center;
-    float: left;
-}
-.commute h3 {
-    margin-top: 5px;
-}
-.commute .temp {
-    font-size: 28px;
-}
-
-
 #weekly {
     width: 100%;
     height: 145px;
-    position: absolute;
-    bottom: 0;
-}
-.rightWeather #weekly {
-    top: 0;
+    padding-top: 10px;
 }
 .weekly-day {
-    width: 12.5%;
+    width: 14.25%;
     float: left;
     text-align: center;
 }

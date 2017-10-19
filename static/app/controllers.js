@@ -1,9 +1,8 @@
 var app = angular.module('ngWeatherStation');
 
-app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function ($scope, $timeout, ForecastIoFactory) {
+app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
     $scope.init = function () {
-        //todo - use a resolve to load this before rendering https://stackoverflow.com/a/16620145
-        ForecastIoFactory.currentForecast(function (err, data) {
+        ForecastIO.currentForecast(function (err, data) {
             if (err) {
                 $scope.forecastError = err;
             } else {
@@ -45,6 +44,7 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                     series: [
                         {
                             name: 'Temperature',
+                            animation: false,
                             data: data.hourly.data.map(function (data) {
                                 return {
                                     y: data.temperature,
@@ -67,10 +67,11 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                                     }
                                 }
                             },
-                            yAxis: 1
+                            zIndex: 1
                         },
                         {
                             name: 'Precipitation',
+                            animation: false,
                             data: data.hourly.data.map(function (data) {
                                 return {
                                     y: data.precipProbability * 100,
@@ -81,7 +82,7 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                             marker: {
                                 enabled: false
                             },
-                            zIndex: 2
+                            yAxis: 1
                         },
                     ],
                     yAxis: [
@@ -90,17 +91,18 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
                                 text: ""
                             },
                             gridLineWidth: 0,
-                            opposite: true
+                            labels: {
+                                enabled: false
+                            }
                         },
                         {
                             title: {
                                 text: ""
                             },
                             gridLineWidth: 0,
-                            labels: {
-                                enabled: false
-                            },
-                            maxPadding: 0.05
+                            opposite: true,
+                            min: 0,
+                            max: 100
                         }
                     ],
                     xAxis: [{
@@ -133,72 +135,157 @@ app.controller('todayCtrl', ['$scope', '$timeout', 'ForecastIoFactory', function
         };
         $timeout(tick, 1000);
     }
-}]);
+});
 
-app.controller('weatherCtrl', ['$scope', 'ForecastIoFactory', function ($scope, ForecastIoFactory) {
-    function calculateNextCommutes() {
-        var now = new Date(),
-            nextCommute = new Date(),
-            nextNextCommute = new Date(),
-            morningCommuteHour = 8,
-            eveningCommuteHour = 17;
-
-        //this should probably be tested ¯\_(ツ)_/¯
-        if (now.getHours() > eveningCommuteHour) {
-            nextCommute.setDate(now.getDate() + 1);
-            nextCommute.setHours(morningCommuteHour, 0, 0, 0);
-            nextNextCommute.setDate(now.getDate() + 1);
-            nextNextCommute.setHours(eveningCommuteHour, 0, 0, 0);
-        } else if (now.getHours() > morningCommuteHour) {
-            nextCommute.setHours(eveningCommuteHour, 0, 0, 0);
-            nextNextCommute.setDate(now.getDate() + 1);
-            nextNextCommute.setHours(morningCommuteHour, 0, 0, 0);
+app.controller('forecastCtrl', function ($scope, ForecastIO) {
+    ForecastIO.currentForecast(function (err, data) {
+        if (err) {
+            $scope.forecastError = err;
         } else {
-            nextCommute.setHours(morningCommuteHour, 0, 0, 0);
-            nextNextCommute.setHours(eveningCommuteHour, 0, 0, 0);
+            $scope.dailyForecast = data.daily.data.slice(0,7);
         }
 
-        return {
-            nextCommute: nextCommute,
-            nextNextCommute: nextNextCommute
+        $scope.chartConfig = {
+            options: {
+                chart: {
+                    alignTicks: false,
+                    backgroundColor: 'black'
+
+                },
+                tooltip: {
+                    enabled: false
+                },
+                legend: {
+                    enabled: false
+                },
+                credits: {
+                    enabled: false
+                }
+            },
+            loading: false,
+            size: {
+                wdith: 480,
+                height: 325
+            },
+            title: {
+                text: ""
+            },
+            series: [
+                {
+                    name: 'Temperature',
+                    animation: false,
+                    data: data.hourly.data.map(function (data) {
+                        return {
+                            y: data.temperature,
+                            x: data.time
+                        };
+                    }),
+                    type: 'spline',
+                    marker: {
+                        enabled: false
+                    },
+                    color: 'white',
+                    dataLabels: {
+                        enabled: true,
+                        color: 'white',
+                        formatter: function () {
+                            // console.log(this.point);
+                            if (this.point.index % 5 == 0) {
+                                console.log(this.point.index);
+                                return Math.round(this.y) + "°";
+                            } else {
+                                return "";
+                            }
+                        }
+                    },
+                    zIndex: 1
+                },
+                {
+                    name: 'Precipitation',
+                    animation: false,
+                    data: data.hourly.data.map(function (data) {
+                        return {
+                            y: data.precipProbability * 100,
+                            x: data.time
+                        };
+                    }),
+                    type: 'areaspline',
+                    marker: {
+                        enabled: false
+                    },
+                    yAxis: 1
+                },
+            ],
+            yAxis: [
+                {
+                    title: {
+                        text: ""
+                    },
+                    gridLineWidth: 0,
+                    labels: {
+                        enabled: false
+                    }
+                },
+                {
+                    title: {
+                        text: ""
+                    },
+                    tickAmount: 3,                    
+                    gridLineWidth: 0,
+                    opposite: true,
+                    min: 0,
+                    max: 100
+                }                
+            ],
+            xAxis: [{
+                type: 'linear',
+                tickLength: 0,
+                gridLineWidth: 1,
+                labels: {
+                    enabled: false
+                }
+            }]
         };
-    }
+        console.log($scope.chartConfig);
+    })
+});
 
-    function findCommuteWeather(time, hourlyData) {
-        var filtered = hourlyData.filter(function (hour) {
-            var hourDate = new Date(hour.time * 1000);  //multiple by 1000 because forecast returns unix timestamps
-            return hourDate.getTime() === time.getTime();
-        });
-        return filtered[0];
-    }
-
-    $scope.init = function () {
-        var commutes = calculateNextCommutes();
-        ForecastIoFactory.currentForecast(function (err, data) {
-            if (err) {
-                $scope.forecastError = err;
-            } else {
-                $scope.forecast = data;
-                $scope.nextCommute = findCommuteWeather(commutes.nextCommute, $scope.forecast.hourly.data);
-                $scope.nextNextCommute = findCommuteWeather(commutes.nextNextCommute, $scope.forecast.hourly.data);
-            }
-        });
+app.controller('weatherRadarCtrl', function ($scope) {
+    var getRadarUrl = function () {
+        var tokens = ['d0dba01007c9d499'];
+        return [
+            'http://api.wunderground.com/api/',
+            tokens[Math.floor(Math.random() * tokens.length)],
+            '/animatedradar/q/97217.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
+        ].join('');
     };
-}]);
 
-app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$location', function ($scope, $route, $interval, $location) {
+    $scope.imageUrl = getRadarUrl();
+});
+
+app.controller('webcamCtrl', function ($scope) {
+    var cams = [
+        'http://wx.koin.com/weather/images/Eastside_Exchange.jpg',
+        'http://wx.koin.com/weather/images/Riverview_Bank.jpg',
+        'http://cdn.tegna-media.com/kgw/weather/wellsfargo.jpg',
+        'http://wx.koin.com/weather/images/Skamania_Lodge.jpg',
+        'https://www.fsvisimages.com/images/photos-main/CORI1_main.jpg',
+        'https://tripcheck.com/RoadCams/cams/i84metro_pid588.jpg',
+        'https://tripcheck.com/RoadCams/cams/fremontbridge_pid531.jpg',
+        'https://tripcheck.com/RoadCams/cams/US30%20at%20St%20Johns%20Bridge%20Top_pid3487.JPG'
+    ];
+
+    $scope.imageUrl = cams[Math.floor(Math.random() * cams.length)];
+});
+
+app.controller('channelRotationCtrl', function ($scope, $route, $interval, $location, ForecastIO) {
     var index = 0,
         skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
         routesArray = [
             '/today',
-            // '/leftWeather',
             '/weatherRadar',
-            // '/rightWeather',
-            // '/noaaWebcam',
-            // '/leftWeather',
-            // '/grantParkCam',
-            // '/rightWeather',
-            // '/loopCam'
+            '/forecast',
+            '/webcam'
         ];
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
@@ -212,21 +299,4 @@ app.controller('channelRotationCtrl', ['$scope', '$route', '$interval', '$locati
     } else {
         console.log('rotate set to false, staying on this page');
     }
-}]);
-
-app.controller('weatherRadarCtrl', ['$scope', function ($scope) {
-    var getRadarUrl = function () {
-        var tokens = ['d0dba01007c9d499'];
-        return [
-            'http://api.wunderground.com/api/',
-            tokens[Math.floor(Math.random() * tokens.length)],
-            '/animatedradar/q/97217.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
-        ].join('');
-    };
-
-    $scope.imageUrl = getRadarUrl();
-}]);
-
-app.controller('fullScreenImageCtrl', ['$scope', 'imageUrl', function ($scope, imageUrl) {
-    $scope.imageUrl = imageUrl;
-}]);
+});

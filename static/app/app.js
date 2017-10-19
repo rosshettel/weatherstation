@@ -2,7 +2,7 @@
 
 var app = angular.module('ngWeatherStation', ['angular-skycons', 'ngRoute', 'highcharts-ng']);
 
-app.factory('ForecastIoFactory', function ($http, $interval) {
+app.factory('ForecastIO', function ($http, $interval) {
     var apiKey = 'bcb8286266a6443a96f802ac80bb4e7b',
         lat = '45.5751419',
         lon = '-122.7093558',
@@ -10,14 +10,19 @@ app.factory('ForecastIoFactory', function ($http, $interval) {
         cachedForecast;
 
     function pollForecastIO(callback) {
-        var url = ['https://api.darksky.net/forecast/', apiKey, '/', lat, ',', lon, '?callback=JSON_CALLBACK'].join('');
+        var url = ['https://api.darksky.net/forecast/', apiKey, '/', lat, ',', lon, '?callback=JSON_CALLBACK'].join(''),
+            params = {
+                callback: 'JSON_CALLBACK',
+                extend: 'hourly',
+                exclude: 'alerts,flags'
+            };
 
-        $http.jsonp(url)
+        $http.jsonp(url, {params: params})
             .success(function (data) {
                 callback(null, data);
             })
             .error(function (error) {
-                console.log(err);
+                console.log('Error getting forecast', err);
                 callback(error);
             });
     }
@@ -34,6 +39,10 @@ app.factory('ForecastIoFactory', function ($http, $interval) {
     }
 
     // poll on an interval to update forecast
+    pollForecastIO(function (err, data) {
+        console.log('precached forecast');
+        cachedForecast = data;
+    });
     $interval(function () {
         pollForecastIO(function (err, data) {
             console.log('updated forecast');

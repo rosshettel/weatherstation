@@ -1,0 +1,14 @@
+<div ng-init="init()" class="">
+    <div id='weekly'>
+        <div class='weekly-day' ng-repeat='day in dailyForecast'>
+            <h3 ng-bind="day.time * 1000 | date: 'EEE'"></h3>
+            <skycon icon="day.icon" size='50' color='white' class='icon'></skycon>
+            <div class='high'><strong>H:</strong> <span ng-bind="day.temperatureMax | temp: 0"></span></div>
+            <div class='low'><strong>L:</strong> <span ng-bind="day.temperatureMin | temp: 0"></span></div>
+        </div>
+    </div>
+    
+    <div id="forecastgraph">
+            <highchart config="chartConfig"></highchart>
+        </div>
+</div>
