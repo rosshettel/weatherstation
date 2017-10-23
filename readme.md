@@ -3,4 +3,4 @@ A simple weather station display that rotates through a current view, weekly for
 
 The weather display is built using Angular 1.3 and the DarkSky.net service, as well as Wunderoground for their animated gif radar images. You can see a preview of the display at http://rosshettel.github.io/weatherstation
 
-[[link to image here]]
+![weather display](https://raw.githubusercontent.com/rosshettel/weatherstation/gh-pages/weatherstation.jpg)
