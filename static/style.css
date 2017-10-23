@@ -32,7 +32,7 @@ body {
     text-align: center;
 }
 #clocks #chicago {
-    padding-top: 27px;
+    padding-top: 17px;
 }
 .clock .time {
     font-size: 60px;
@@ -52,7 +52,7 @@ body {
 #currently .icon {
     width: 125px;
     height: 125px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 #currently .temp {
@@ -61,7 +61,7 @@ body {
 #currently .summary {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 

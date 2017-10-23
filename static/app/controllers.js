@@ -1,6 +1,13 @@
 var app = angular.module('ngWeatherStation');
 
 app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
+    function bearingToCompass(num) {
+        //from https://stackoverflow.com/a/25867068
+        var val = Math.floor((num / 22.5) + 0.5),
+            arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+        return arr[(val % 16)];
+    }
+
     $scope.init = function () {
         ForecastIO.currentForecast(function (err, data) {
             if (err) {
@@ -12,8 +19,9 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
                     summary: data.minutely.summary,
                     temperature: data.currently.temperature,
                     truetemperature: data.currently.apparentTemperature,
-                    windspeed: data.currently.windSpeed,
-                    winddirection: data.currently.windBearing   //todo - convert this to english
+                    wind: data.currently.windSpeed + " " + data.currently.windBearing,
+                    windspeed: Math.round(data.currently.windSpeed),
+                    winddirection: bearingToCompass(data.currently.windBearing)
                 };
 
                 $scope.chartConfig = {
