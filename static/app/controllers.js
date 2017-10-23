@@ -280,7 +280,7 @@ app.controller('webcamCtrl', function ($scope) {
     var cams = [
         'http://wx.koin.com/weather/images/Eastside_Exchange.jpg',
         'http://wx.koin.com/weather/images/Riverview_Bank.jpg',
-        'http://cdn.tegna-media.com/kgw/weather/wellsfargo.jpg',
+        // 'http://cdn.tegna-media.com/kgw/weather/wellsfargo.jpg',
         'http://wx.koin.com/weather/images/Skamania_Lodge.jpg',
         'https://www.fsvisimages.com/images/photos-main/CORI1_main.jpg',
         'https://tripcheck.com/RoadCams/cams/i84metro_pid588.jpg',
