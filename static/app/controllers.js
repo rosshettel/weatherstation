@@ -290,6 +290,7 @@ app.controller('webcamCtrl', function ($scope) {
         'http://wx.koin.com/weather/images/Riverview_Bank.jpg',
         'http://cdn.tegna-media.com/kgw/weather/wellsfargo.jpg',
         'http://cdn.tegna-media.com/kgw/weather/rosecity.jpg',
+        'http://w3.gorge.net/niknas/webcam.jpg',
         'http://wx.koin.com/weather/images/Skamania_Lodge.jpg',
         'https://www.fsvisimages.com/images/photos-main/CORI1_main.jpg',
         'https://tripcheck.com/RoadCams/cams/i84metro_pid588.jpg',
@@ -306,9 +307,9 @@ app.controller('channelRotationCtrl', function ($scope, $route, $interval, $time
         routesArray = [
             {route: '/today', time: 15},
             {route: '/weatherRadar', time: 8},
-            {route: '/webcam', time: 5},
+            {route: '/webcam', time: 6},
             {route: '/forecast', time: 10},
-            {route: '/webcam', time: 4}
+            {route: '/webcam', time: 6}
         ];
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
