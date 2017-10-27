@@ -86,13 +86,20 @@ body {
 }
 
 .webcam-container {
+    clear: both;
+    overflow: auto;
     background-color: black;
+    text-align: center;
 }
 .webcam {
+    display: inline-block;
+    margin: auto;
+    padding: 0.5%;
+}
+
+.webcam img {
     object-fit: fill;
     object-position: center;
     width: 550px;
     height: 400px;
-    float: left;
-    padding: 0.5%;
 }
