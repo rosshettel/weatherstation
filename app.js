@@ -9,6 +9,9 @@ app.use('/static', express.static('static'));
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/index.html')
 });
+app.get('/webcamdashboard', function (req, res) {
+	res.sendFile(__dirname + '/webcamdashboard.html')
+});
 
 server = app.listen(3000, function () {
 	var address = server.address();

@@ -2,15 +2,17 @@
 
 var app = angular.module('ngWeatherStation', ['angular-skycons', 'ngRoute', 'highcharts-ng']);
 
-app.factory('ForecastIO', function ($http, $interval) {
-    var apiKey = 'bcb8286266a6443a96f802ac80bb4e7b',
-        lat = '45.5751419',
-        lon = '-122.7093558',
-        interval = 1000 * 60 * 5,  //5 minutes, we get 1000 free calls a day
+app.factory('ForecastIO', function ($http, $interval, config) {
+    var interval = 1000 * 60 * 5,  //5 minutes, we get 1000 free calls a day
         cachedForecast;
 
     function pollForecastIO(callback) {
-        var url = ['https://api.darksky.net/forecast/', apiKey, '/', lat, ',', lon, '?callback=JSON_CALLBACK'].join(''),
+        var url = [
+                'https://api.darksky.net/forecast/', 
+                config.forecastIOKey, 
+                '/', config.lat, ',', config.lon, 
+                // '?callback=JSON_CALLBACK'
+            ].join(''),
             params = {
                 callback: 'JSON_CALLBACK',
                 extend: 'hourly',

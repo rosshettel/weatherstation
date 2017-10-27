@@ -1,13 +1,14 @@
 <!DOCTYPE html> 
 <html>
     <head>
-        <title>Weather Station</title>
+        <title>Webcam Dashboard</title>
         <link rel="stylesheet" href="static/style.css" media="screen" title="no title" charset="utf-8">
-        <link href='http://fonts.googleapis.com/css?family=Noticia+Text' rel='stylesheet' type='text/css'>
     </head>
-    <body ng-app="ngWeatherStation">
-        <div ng-controller='channelRotationCtrl'>
-            <div ng-view id="viewframe"></div>
+    <body ng-app="ngWeatherStation" class='webcam-container'>
+        <div ng-controller='webcamDashboardCtrl'>
+            <div ng-repeat='webcam in webcams'>
+                <a href="{{webcam}}" target="_blank"><img class='webcam' src="{{webcam}}"></a>
+            </div>
         </div>
 
         <script src="static/libs/angular.min.js"></script>
@@ -16,10 +17,10 @@
         <script src="static/libs/angular-route.js"></script>
         <script src="static/libs/highcharts.js"></script>
         <script src="static/libs/highcharts-ng.js"></script>
-
+        
         <script src="static/app/app.js"></script>
         <script src="static/app/config.js"></script>
         <script src="static/app/controllers.js"></script>
-        <script src="static/app/routes.js"></script>
     </body>
 </html>
+

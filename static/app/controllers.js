@@ -1,6 +1,6 @@
 var app = angular.module('ngWeatherStation');
 
-app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
+app.controller('todayCtrl', function ($scope, $timeout, ForecastIO, config) {
     function bearingToCompass(num) {
         //from https://stackoverflow.com/a/25867068
         var val = Math.floor((num / 22.5) + 0.5),
@@ -127,19 +127,23 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO) {
             }
         });
 
-        function getTime() {
+        var getTime = function () {
             return {
-                chicago: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: 'America/Chicago'}),
-                portland: (new Date()).toLocaleString([], {hour: '2-digit', minute: '2-digit', timeZone: 'America/Los_Angeles'}),
+                top: {
+                    name: config.clocks.top.name, 
+                    time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.top.tz})
+                },
+                bottom: {
+                    name: config.clocks.bottom.name,
+                    time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.bottom.tz})
+                }
             };
-        }
-
-        $scope.time = getTime();
-
-        var tick = function () {
-            $scope.time = getTime();
+        }, tick = function () {
+            $scope.clocks = getTime();
             $timeout(tick, 1000);
         };
+
+        $scope.clocks = getTime();
         $timeout(tick, 1000);
     }
 });
@@ -271,46 +275,29 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
     })
 });
 
-app.controller('weatherRadarCtrl', function ($scope) {
-    var getRadarUrl = function () {
-        var tokens = ['d0dba01007c9d499'];
-        return [
-            'http://api.wunderground.com/api/',
-            tokens[Math.floor(Math.random() * tokens.length)],
-            '/animatedradar/q/97217.gif?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
-        ].join('');
-    };
-
-    $scope.imageUrl = getRadarUrl();
+app.controller('weatherRadarCtrl', function ($scope, config) {
+    $scope.imageUrl = [
+        'http://api.wunderground.com/api/',
+        config.wundergroundTokens[Math.floor(Math.random() * config.wundergroundTokens.length)],
+        '/animatedradar/q/',
+        config.zip,
+        '.gif',
+        '?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
+    ].join('');
 });
 
-app.controller('webcamCtrl', function ($scope) {
-    var cams = [
-        'http://wx.koin.com/weather/images/Eastside_Exchange.jpg',
-        'http://wx.koin.com/weather/images/Riverview_Bank.jpg',
-        'http://cdn.tegna-media.com/kgw/weather/wellsfargo.jpg',
-        'http://cdn.tegna-media.com/kgw/weather/rosecity.jpg',
-        'http://w3.gorge.net/niknas/webcam.jpg',
-        'http://wx.koin.com/weather/images/Skamania_Lodge.jpg',
-        'https://www.fsvisimages.com/images/photos-main/CORI1_main.jpg',
-        'https://tripcheck.com/RoadCams/cams/i84metro_pid588.jpg',
-        'https://tripcheck.com/RoadCams/cams/fremontbridge_pid531.jpg',
-        'https://tripcheck.com/RoadCams/cams/US30%20at%20St%20Johns%20Bridge%20Top_pid3487.JPG'
-    ];
-
-    $scope.imageUrl = cams[Math.floor(Math.random() * cams.length)];
+app.controller('webcamCtrl', function ($scope, config) {
+    $scope.imageUrl = config.webcams[Math.floor(Math.random() * config.webcams.length)];
 });
 
-app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, ForecastIO) {
+app.controller('webcamDashboardCtrl', function ($scope, config) {
+    $scope.webcams = config.webcams;
+});
+
+app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, ForecastIO, config) {
     var skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
         index = -1,
-        routesArray = [
-            {route: '/today', time: 15},
-            {route: '/weatherRadar', time: 8},
-            {route: '/webcam', time: 6},
-            {route: '/forecast', time: 10},
-            {route: '/webcam', time: 6}
-        ];
+        routesArray = config.routeRotation;
 
     $scope.initSkycon = skycons[Math.floor(Math.random() * skycons.length)];
 
