@@ -290,8 +290,17 @@ app.controller('webcamCtrl', function ($scope, config) {
     $scope.imageUrl = config.webcams[Math.floor(Math.random() * config.webcams.length)];
 });
 
-app.controller('webcamDashboardCtrl', function ($scope, config) {
-    $scope.webcams = config.webcams;
+app.controller('webcamDashboardCtrl', function ($scope, $interval, config) {
+    var getWebcams = function () {
+        $scope.webcams = config.webcams.map(function(webcam) {
+            return webcam + '#' + new Date().getTime();
+        });
+    };
+    getWebcams();
+    $interval(function () {
+        conosle.log('updated webcams');
+        getWebcams();  
+    }, 1000 * 60 * 15);
 });
 
 app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, ForecastIO, config) {

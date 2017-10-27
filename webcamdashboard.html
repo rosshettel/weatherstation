@@ -3,11 +3,12 @@
     <head>
         <title>Webcam Dashboard</title>
         <link rel="stylesheet" href="static/style.css" media="screen" title="no title" charset="utf-8">
+        <link rel="icon" type="image/png" href="static/favicon.ico">
     </head>
     <body ng-app="ngWeatherStation" class='webcam-container'>
         <div ng-controller='webcamDashboardCtrl'>
             <div ng-repeat='webcam in webcams'>
-                <a href="{{webcam}}" target="_blank"><img class='webcam' src="{{webcam}}"></a>
+                <a href="{{webcam}}" target="_blank"><img class='webcam' ng-src="{{webcam}}"></a>
             </div>
         </div>
 
