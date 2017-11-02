@@ -1,6 +1,6 @@
 var app = angular.module('ngWeatherStation');
 
-app.controller('todayCtrl', function ($scope, $timeout, ForecastIO, config) {
+app.controller('todayCtrl', function ($scope, $interval, ForecastIO, config) {
     function bearingToCompass(num) {
         //from https://stackoverflow.com/a/25867068
         var val = Math.floor((num / 22.5) + 0.5),
@@ -128,7 +128,7 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO, config) {
         });
 
         var getTime = function () {
-            return {
+            $scope.clocks = {
                 top: {
                     name: config.clocks.top.name, 
                     time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.top.tz})
@@ -138,13 +138,12 @@ app.controller('todayCtrl', function ($scope, $timeout, ForecastIO, config) {
                     time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.bottom.tz})
                 }
             };
-        }, tick = function () {
-            $scope.clocks = getTime();
-            $timeout(tick, 1000);
-        };
+        }, clockTick = $interval(getTime, 1000);
 
-        $scope.clocks = getTime();
-        $timeout(tick, 1000);
+        getTime();
+        $scope.$on('$destroy', function () {
+            $interval.cancel(clockTick);
+        });
     }
 });
 
