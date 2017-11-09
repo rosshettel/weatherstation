@@ -1,11 +1,11 @@
 <div ng-init="init()">
     <div id="clocks">
-        <div class="clock" id="top">
-            <span class="time">{{ clocks.top.time }}</span>
+        <div class="bigclock" id="top">
+            <clock timezone="{{ clocks.top.timezone }}"></clock>
             <p class="title">{{ clocks.top.name }}</p>
         </div>
-        <div class="clock" id="bottom">
-            <span class="time">{{ clocks.bottom.time }}</span>
+        <div class="bigclock" id="bottom">
+            <clock timezone="{{ clocks.bottom.timezone }}"></clock>
             <p class="title">{{ clocks.bottom.name }}</p>
         </div>
     </div>

@@ -17,7 +17,7 @@ app.controller('statusBarCtrl', function ($scope, $interval, ForecastIO, config)
     });
 });
 
-app.controller('todayCtrl', function ($scope, $interval, ForecastIO, config) {
+app.controller('todayCtrl', function ($scope, ForecastIO, config) {
     function bearingToCompass(num) {
         //from https://stackoverflow.com/a/25867068
         var val = Math.floor((num / 22.5) + 0.5),
@@ -144,23 +144,16 @@ app.controller('todayCtrl', function ($scope, $interval, ForecastIO, config) {
             }
         });
 
-        var getTime = function () {
-            $scope.clocks = {
-                top: {
-                    name: config.clocks.top.name, 
-                    time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.top.tz})
-                },
-                bottom: {
-                    name: config.clocks.bottom.name,
-                    time: (new Date()).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: config.clocks.bottom.tz})
-                }
-            };
-        }, clockTick = $interval(getTime, 1000);
-
-        getTime();
-        $scope.$on('$destroy', function () {
-            $interval.cancel(clockTick);
-        });
+        $scope.clocks = {
+            top: {
+                name: config.clocks.top.name,
+                timezone: config.clocks.top.tz
+            },
+            bottom: {
+                name: config.clocks.bottom.name,
+                timezone: config.clocks.bottom.tz
+            }
+        };
     }
 });
 
@@ -191,7 +184,7 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
             },
             loading: false,
             size: {
-                wdith: 480,
+                width: 640,
                 height: 305
             },
             title: {

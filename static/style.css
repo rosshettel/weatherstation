@@ -45,10 +45,10 @@ body {
 #clocks #top {
     padding-top: 17px;
 }
-.clock .time {
+.bigclock clock {
     font-size: 60px;
 }
-.clock .title {
+.bigclock .title {
     font-size: 25px;
     margin-top: 0px;
 }
