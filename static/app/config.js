@@ -18,10 +18,10 @@ angular.module('ngWeatherStation').constant('config', {
     zip: '97217',
     routeRotation: [
         {route: '/today', time: 15},
-        {route: '/weatherRadar', time: 8},
-        {route: '/webcam', time: 6},
-        {route: '/forecast', time: 10},
-        {route: '/webcam', time: 6}
+        {route: '/weatherRadar', time: 10},
+        {route: '/webcam', time: 8},
+        {route: '/forecast', time: 12},
+        {route: '/webcam', time: 8}
     ],
     clocks: {
         top: {name: 'Chicago', tz: 'America/Chicago'},
