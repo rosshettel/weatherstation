@@ -1,3 +1,7 @@
+<div ng-controller='statusBarCtrl' id="statusbar">
+    <clock timezone="{{timezone}}"></clock> -- <span ng-bind="temperature | temp: 0"></span>
+    <span id="summary" ng-bind="summary"></span>
+</div>
 <div ng-init="init()" class="">
     <div id='weekly'>
         <div class='weekly-day' ng-repeat='day in dailyForecast'>

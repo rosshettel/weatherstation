@@ -57,6 +57,23 @@ app.factory('ForecastIO', function ($http, $interval, config) {
     };
 });
 
+app.directive('clock', function ($interval) {
+    return {
+        restrict: 'E',
+        link: function (scope, element, attrs) {
+            var updateClock = function () {
+                    element.text(new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', timeZone: attrs.timezone}));
+                }, 
+                clockInterval = $interval(updateClock, 1000);
+
+            updateClock();
+            scope.$on('$destroy', function () {
+                $interval.cancel(clockInterval);
+            });
+        }
+    }
+});
+
 app.filter('temp', function ($filter) {
     return function(input, precision) {
         if (precision === undefined) {

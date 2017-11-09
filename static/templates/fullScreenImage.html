@@ -1,3 +1,7 @@
+<div ng-controller='statusBarCtrl' id="statusbar">
+    <clock timezone="{{timezone}}"></clock> -- <span ng-bind="temperature | temp: 0"></span>
+    <span id="summary" ng-bind="summary"></span>
+</div>
 <div>
-    <img ng-src="{{imageUrl}}" width="640px" height="480px"/>
+    <img ng-src="{{imageUrl}}" width="640px" height="460px"/>
 </div>

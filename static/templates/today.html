@@ -13,7 +13,7 @@
     <div id="currently">
         <skycon icon="current.icon" size='200' color='white' class='icon'></skycon>
         <div class='temp' ng-bind='current.temperature | temp'></div>
-        <div>Feels like {{current.truetemperature | temp}}. {{current.windspeed}} mph {{current.winddirection}} winds.</div>
+        <div>Feels like {{current.truetemperature | temp}} -- {{current.windspeed}} mph {{current.winddirection}} winds</div>
         <div class='summary' ng-bind='current.summary'></div>
     </div>
 

@@ -1,5 +1,22 @@
 var app = angular.module('ngWeatherStation');
 
+app.controller('statusBarCtrl', function ($scope, $interval, ForecastIO, config) {
+    $scope.timezone = config.clocks.bottom.tz;
+
+    ForecastIO.currentForecast(function (err, data) {
+        if (err) {
+            $scope.forecastError = err;
+        } else {
+            if (data.minutely.summary.length > 60) {
+                $scope.summary = data.minutely.summary.substring(0, 57) + "...";
+            } else {
+                $scope.summary = data.minutely.summary;
+            }
+            $scope.temperature = data.currently.temperature;
+        }
+    });
+});
+
 app.controller('todayCtrl', function ($scope, $interval, ForecastIO, config) {
     function bearingToCompass(num) {
         //from https://stackoverflow.com/a/25867068
@@ -175,7 +192,7 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
             loading: false,
             size: {
                 wdith: 480,
-                height: 325
+                height: 305
             },
             title: {
                 text: ""
@@ -281,7 +298,7 @@ app.controller('weatherRadarCtrl', function ($scope, config) {
         '/animatedradar/q/',
         config.zip,
         '.gif',
-        '?width=640&height=480&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
+        '?width=640&height=460&newmaps=1&smooth=1&noclutter=1&timelabel=1&radius=45'
     ].join('');
 });
 
