@@ -1,0 +1,7 @@
+#save this file in .config/lxsession/LXDE-pi/autostart on a pi and delete this commented line
+@unclutter -idle 0.1 -root
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@xscreensaver -no-splash
+@point-rpi
+@chromium-browser --kiosk --remote-debugging-port=9222 --incognito --disable-session-crashed-bubble --disable-infobars http://rosshettel.github.io/weatherstation
