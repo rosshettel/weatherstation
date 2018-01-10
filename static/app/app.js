@@ -52,6 +52,12 @@ app.factory('ForecastIO', function ($http, $interval, config) {
 
         $http.jsonp(url, {params: params})
             .success(function (data) {
+                if (!data.minutely) {
+                    console.log('no minutely data returned, substituting hourly summary');
+                    data.minutely = {
+                        'summary': data.hourly.summary
+                    };
+                }
                 callback(null, data);
             })
             .error(function (error) {
