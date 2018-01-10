@@ -1,4 +1,4 @@
-angular.module('ngWeatherStation').constant('config', {
+angular.module('weatherstation').constant('config', {
     webcams: [
         'http://wx.koin.com/weather/images/Eastside_Exchange.jpg',
         'http://wx.koin.com/weather/images/Riverview_Bank.jpg',
@@ -12,7 +12,7 @@ angular.module('ngWeatherStation').constant('config', {
         'https://tripcheck.com/RoadCams/cams/US30%20at%20St%20Johns%20Bridge%20Top_pid3487.JPG'
     ],
     wundergroundTokens: ['d0dba01007c9d499'],
-    forecastIOKey: 'bcb8286266a6443a96f802ac80bb4e7b',
+    darkSkyKey: 'bcb8286266a6443a96f802ac80bb4e7b',
     lat: '45.5751419',
     lon: '-122.7093558',
     zip: '97217',

@@ -1,4 +1,4 @@
-angular.module('ngWeatherStation').config(['$routeProvider', function ($routeProvider) {
+angular.module('weatherstation').config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when('/', {
             templateUrl: 'static/templates/init.html'

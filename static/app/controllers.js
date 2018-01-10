@@ -1,9 +1,9 @@
-var app = angular.module('ngWeatherStation');
+var app = angular.module('weatherstation');
 
-app.controller('statusBarCtrl', function ($scope, $interval, ForecastIO, config) {
+app.controller('statusBarCtrl', function ($scope, $interval, DarkSky, config) {
     $scope.timezone = config.clocks.bottom.tz;
 
-    ForecastIO.currentForecast(function (err, data) {
+    DarkSky.currentForecast(function (err, data) {
         if (err) {
             $scope.forecastError = err;
         } else {
@@ -17,7 +17,7 @@ app.controller('statusBarCtrl', function ($scope, $interval, ForecastIO, config)
     });
 });
 
-app.controller('todayCtrl', function ($scope, ForecastIO, config) {
+app.controller('todayCtrl', function ($scope, DarkSky, config) {
     function bearingToCompass(num) {
         //from https://stackoverflow.com/a/25867068
         var val = Math.floor((num / 22.5) + 0.5),
@@ -26,7 +26,7 @@ app.controller('todayCtrl', function ($scope, ForecastIO, config) {
     }
 
     $scope.init = function () {
-        ForecastIO.currentForecast(function (err, data) {
+        DarkSky.currentForecast(function (err, data) {
             if (err) {
                 $scope.forecastError = err;
             } else {
@@ -157,8 +157,8 @@ app.controller('todayCtrl', function ($scope, ForecastIO, config) {
     }
 });
 
-app.controller('forecastCtrl', function ($scope, ForecastIO) {
-    ForecastIO.currentForecast(function (err, data) {
+app.controller('forecastCtrl', function ($scope, DarkSky) {
+    DarkSky.currentForecast(function (err, data) {
         if (err) {
             $scope.forecastError = err;
         } else {
@@ -286,7 +286,7 @@ app.controller('forecastCtrl', function ($scope, ForecastIO) {
 
 app.controller('weatherRadarCtrl', function ($scope, config) {
     $scope.imageUrl = [
-        'http://api.wunderground.com/api/',
+        'https://api.wunderground.com/api/',
         config.wundergroundTokens[Math.floor(Math.random() * config.wundergroundTokens.length)],
         '/animatedradar/q/',
         config.zip,
@@ -312,7 +312,7 @@ app.controller('webcamDashboardCtrl', function ($scope, $interval, config) {
     }, 1000 * 60 * 15);
 });
 
-app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, ForecastIO, config) {
+app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, config) {
     var skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
         index = -1,
         routesArray = config.routeRotation;
