@@ -10,7 +10,9 @@ var app = angular.module('weatherstation', ['angular-skycons', 'ngRoute', 'highc
 
 app.factory('DarkSky', function ($http, $interval, config) {
     var interval = 1000 * 60 * 5,  //5 minutes, we get 1000 free calls a day
-        cachedForecast;
+        currentCache,
+        timemachineKey,
+        timemachineCache;
 
     function pollDarkSky(params, callback) {
         var url = [
@@ -43,7 +45,7 @@ app.factory('DarkSky', function ($http, $interval, config) {
     }
 
     function currentForecast(callback) {
-        if (!cachedForecast) {
+        if (!currentCache) {
             pollDarkSky({
                 'extend': 'hourly',
                 'exclude': 'alerts,flags'
@@ -54,22 +56,28 @@ app.factory('DarkSky', function ($http, $interval, config) {
                         'summary': data.hourly.summary
                     };
                 }
-                cachedForecast = data;
-                callback(null, cachedForecast);
+                currentCache = data;
+                callback(null, currentCache);
             })
         } else {
-            callback(null, cachedForecast);
+            callback(null, currentCache);
         }
     }
 
     function timeMachine(time, callback) {
-        pollDarkSky({
-            'time': time,
-            'extend': 'hourly',
-            'exclude': 'currently,minutely,daily,alerts,flags'
-        }, function (err, data) {
-            callback(null, data);
-        });
+        if (time == timemachineKey && timemachineCache) {
+            return timemachineCache;
+        } else {
+            pollDarkSky({
+                'time': time,
+                'extend': 'hourly',
+                'exclude': 'currently,minutely,daily,alerts,flags'
+            }, function (err, data) {
+                timemachineKey = time;
+                timemachineCache = data;
+                callback(null, data);
+            });
+        }
     }
 
     // poll on an interval to update forecast
