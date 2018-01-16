@@ -45,7 +45,9 @@ app.factory('DarkSky', function ($http, $interval, config) {
     }
 
     function currentForecast(callback) {
-        if (!currentCache) {
+        if (currentCache) {
+            callback(null, JSON.parse(JSON.stringify(currentCache)));
+        } else {
             pollDarkSky({
                 'extend': 'hourly',
                 'exclude': 'alerts,flags'
@@ -57,16 +59,14 @@ app.factory('DarkSky', function ($http, $interval, config) {
                     };
                 }
                 currentCache = data;
-                callback(null, currentCache);
-            })
-        } else {
-            callback(null, currentCache);
+                callback(null, JSON.parse(JSON.stringify(currentCache)));
+            });
         }
     }
 
     function timeMachine(time, callback) {
         if (time == timemachineKey && timemachineCache) {
-            return timemachineCache;
+            callback(null, JSON.parse(JSON.stringify(timemachineCache)));
         } else {
             pollDarkSky({
                 'time': time,
@@ -85,6 +85,7 @@ app.factory('DarkSky', function ($http, $interval, config) {
         console.log('precached forecast');
     });
     $interval(function () {
+        currentCache = null;
         currentForecast(function () {
             console.log('updated forecast');
         });

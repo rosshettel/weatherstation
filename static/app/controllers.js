@@ -49,7 +49,10 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
 
                         },
                         tooltip: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function () {
+                                return new Date(this.x).toString();
+                            }
                         },
                         legend: {
                             enabled: false
@@ -73,7 +76,7 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             data: data.hourly.data.map(function (data) {
                                 return {
                                     y: data.temperature,
-                                    x: data.time
+                                    x: data.time * 1000
                                 };
                             }).slice(0,24),
                             type: 'spline',
@@ -100,7 +103,7 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             data: data.hourly.data.map(function (data) {
                                 return {
                                     y: data.precipProbability * 100,
-                                    x: data.time
+                                    x: data.time * 1000
                                 };
                             }).slice(0,24),
                             type: 'areaspline',
@@ -131,14 +134,19 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                         }
                     ],
                     xAxis: [{
-                        type: 'linear',
+                        type: 'datetime',
                         tickLength: 0,
                         labels: {
                             formatter: function () {
-                                var date = new Date(this.value * 1000);
+                                var date = new Date(this.value);
                                 return date.toLocaleString('en-US', {hour: 'numeric', hour12: true});
                             }
-                        }
+                        },
+                        plotLines: [{
+                            color: 'red',
+                            width: 1,
+                            value: new Date().getTime()
+                        }]
                     }]
                 };
             }
@@ -296,7 +304,12 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                         gridLineWidth: 1,
                         labels: {
                             enabled: false
-                        }
+                        },
+                        plotLines: [{
+                            color: 'red',
+                            width: 1,
+                            value: new Date().getTime()
+                        }]
                     }]
                 };
             }
@@ -332,7 +345,7 @@ app.controller('webcamDashboardCtrl', function ($scope, $interval, config) {
     }, 1000 * 60 * 15);
 });
 
-app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, config) {
+app.controller('channelRotationCtrl', function ($scope, $route, $interval, $timeout, $location, config, DarkSky) {
     var skycons = ['clear-day', 'clear-night', 'rain', 'snow', 'sleet', 'wind', 'fog', 'cloudy', 'partly-cloudy-day', 'partly-cloudy-night'],
         index = -1,
         routesArray = config.routeRotation;
