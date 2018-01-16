@@ -143,7 +143,8 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             }
                         },
                         plotLines: [{
-                            color: 'red',
+                            color: 'white',
+                            dashStyle: 'LongDash',
                             width: 1,
                             value: new Date().getTime()
                         }]
@@ -306,7 +307,8 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                             enabled: false
                         },
                         plotLines: [{
-                            color: 'red',
+                            color: 'white',
+                            dashStyle: 'LongDash',
                             width: 1,
                             value: new Date().getTime()
                         }]
