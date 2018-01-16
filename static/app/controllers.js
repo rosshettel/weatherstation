@@ -165,122 +165,142 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
             $scope.dailyForecast = data.daily.data.slice(0,7);
         }
 
-        $scope.chartConfig = {
-            options: {
-                chart: {
-                    alignTicks: false,
-                    backgroundColor: 'black'
+        var hourlyData = data.hourly.data,
+            startTime = data.hourly.data[0].time;
 
-                },
-                tooltip: {
-                    enabled: false
-                },
-                legend: {
-                    enabled: false
-                },
-                credits: {
-                    enabled: false
-                }
-            },
-            loading: false,
-            size: {
-                width: 640,
-                height: 305
-            },
-            title: {
-                text: ""
-            },
-            series: [
-                {
-                    name: 'Temperature',
-                    animation: false,
-                    data: data.hourly.data.map(function (data) {
-                        return {
-                            y: data.temperature,
-                            x: data.time
-                        };
-                    }),
-                    type: 'spline',
-                    marker: {
-                        enabled: false
-                    },
-                    color: 'white',
-                    dataLabels: {
-                        enabled: true,
-                        color: 'white',
-                        allowOverlap: true,
-                        formatter: function () {
-                            var splits = [0,23,47,71,95,119,143,168],
-                                subset;
+        DarkSky.timeMachine(startTime, function (err, data) {
+            if (err) {
+                $scope.forecastError = err;
+            } else {
+                var beforeData = data.hourly.data.filter(function (item) {
+                    return item.time < startTime;
+                });
+                hourlyData.unshift.apply(hourlyData, beforeData);
+                hourlyData.splice(hourlyData.length - beforeData.length, beforeData.length);
 
-                            for (var i = 0; i < splits.length; i++) {
-                                if (this.point.index <= splits[i + 1] && this.point.index >= splits[i]) {
-                                    subset = this.series.data.slice(splits[i], splits[i + 1]).map(function (data) {
-                                        return data.y;
-                                    });
-                                    break;
-                                }
+                $scope.chartConfig = {
+                    options: {
+                        chart: {
+                            alignTicks: false,
+                            backgroundColor: 'black'
+        
+                        },
+                        tooltip: {
+                            enabled: true,
+                            formatter: function () {
+                                return new Date(this.x).toString();
                             }
-
-                            var max = Math.max.apply(null, subset),
-                                min = Math.min.apply(null, subset),
-                                point = this.point.y;
-
-                            if (this.point.y == min || this.point.y == max) {
-                                return Math.round(this.point.y) + "°";
-                            } else {
-                                return "";
-                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        credits: {
+                            enabled: false
                         }
                     },
-                    zIndex: 1
-                },
-                {
-                    name: 'Precipitation',
-                    animation: false,
-                    data: data.hourly.data.map(function (data) {
-                        return {
-                            y: data.precipProbability * 100,
-                            x: data.time
-                        };
-                    }),
-                    type: 'areaspline',
-                    marker: {
-                        enabled: false
+                    loading: false,
+                    size: {
+                        width: 640,
+                        height: 305
                     },
-                    yAxis: 1
-                },
-            ],
-            yAxis: [
-                {
                     title: {
                         text: ""
                     },
-                    gridLineWidth: 0,
-                    labels: {
-                        enabled: false
-                    }
-                },
-                {
-                    title: {
-                        text: ""
-                    },
-                    tickAmount: 3,                    
-                    gridLineWidth: 0,
-                    opposite: true,
-                    min: 0,
-                    max: 100
-                }                
-            ],
-            xAxis: [{
-                type: 'linear',
-                tickLength: 0,
-                gridLineWidth: 1,
-                labels: {
-                    enabled: false
-                }
-            }]
-        };
+                    series: [
+                        {
+                            name: 'Temperature',
+                            animation: false,
+                            data: hourlyData.map(function (data) {
+                                return {
+                                    y: data.temperature,
+                                    x: data.time * 1000
+                                };
+                            }),
+                            type: 'spline',
+                            marker: {
+                                enabled: false
+                            },
+                            color: 'white',
+                            dataLabels: {
+                                enabled: true,
+                                color: 'white',
+                                allowOverlap: true,
+                                formatter: function () {
+                                    var splits = [0,23,47,71,95,119,143,168],
+                                        subset;
+        
+                                    for (var i = 0; i < splits.length; i++) {
+                                        if (this.point.index <= splits[i + 1] && this.point.index >= splits[i]) {
+                                            subset = this.series.data.slice(splits[i], splits[i + 1]).map(function (data) {
+                                                return data.y;
+                                            });
+                                            break;
+                                        }
+                                    }
+        
+                                    var max = Math.max.apply(null, subset),
+                                        min = Math.min.apply(null, subset),
+                                        point = this.point.y;
+        
+                                    if (this.point.y == min || this.point.y == max) {
+                                        return Math.round(this.point.y) + "°";
+                                    } else {
+                                        return "";
+                                    }
+                                }
+                            },
+                            zIndex: 1
+                        },
+                        {
+                            name: 'Precipitation',
+                            animation: false,
+                            data: hourlyData.map(function (data) {
+                                return {
+                                    y: data.precipProbability * 100,
+                                    x: data.time * 1000
+                                };
+                            }),
+                            type: 'areaspline',
+                            marker: {
+                                enabled: false
+                            },
+                            yAxis: 1
+                        },
+                    ],
+                    yAxis: [
+                        {
+                            title: {
+                                text: ""
+                            },
+                            gridLineWidth: 0,
+                            labels: {
+                                enabled: false
+                            }
+                        },
+                        {
+                            title: {
+                                text: ""
+                            },
+                            labels: {
+                                enabled: false
+                            },
+                            tickAmount: 3,
+                            gridLineWidth: 0,
+                            min: 0,
+                            max: 100
+                        }                
+                    ],
+                    xAxis: [{
+                        type: 'datetime',
+                        tickLength: 0,
+                        gridLineWidth: 1,
+                        labels: {
+                            enabled: false
+                        }
+                    }]
+                };
+            }
+        });
     })
 });
 

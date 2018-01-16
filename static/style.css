@@ -80,9 +80,10 @@ body {
     width: 100%;
     height: 145px;
     padding-top: 10px;
+    padding-left: 15px;
 }
 .weekly-day {
-    width: 14.25%;
+    width: 87px;
     float: left;
     text-align: center;
 }

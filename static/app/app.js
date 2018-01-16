@@ -1,42 +1,59 @@
 'use strict';
 
+Highcharts.setOptions({
+    global: {
+        useUTC: false
+    }
+});
+
 var app = angular.module('weatherstation', ['angular-skycons', 'ngRoute', 'highcharts-ng']);
 
 app.factory('DarkSky', function ($http, $interval, config) {
     var interval = 1000 * 60 * 5,  //5 minutes, we get 1000 free calls a day
         cachedForecast;
 
-    function pollDarkSky(callback) {
+    function pollDarkSky(params, callback) {
         var url = [
                 'https://api.darksky.net/forecast/', 
                 config.darkSkyKey, 
                 '/', config.lat, ',', config.lon
             ].join(''),
-            params = {
-                callback: 'JSON_CALLBACK',
-                extend: 'hourly',
-                exclude: 'alerts,flags'
+            requestParams = {
+                callback: 'JSON_CALLBACK'
             };
 
-        $http.jsonp(url, {params: params})
+        if (params.time) {
+            url += "," + params.time;
+        }
+        if (params.extend) {
+            requestParams['extend'] = params.extend;
+        }
+        if (params.exclude) {
+            requestParams['exclude'] = params.exclude;
+        }
+
+        $http.jsonp(url, {params: requestParams})
             .success(function (data) {
-                if (!data.minutely) {
-                    console.log('DarkSky returned no minutely data, substituting hourly summary');
-                    data.minutely = {
-                        'summary': data.hourly.summary
-                    };
-                }
                 callback(null, data);
             })
             .error(function (error) {
-                console.log('Error getting forecast', err);
+                console.log('Error getting polling DarkSky', err);
                 callback(error);
             });
     }
 
     function currentForecast(callback) {
         if (!cachedForecast) {
-            pollDarkSky(function (err, data) {
+            pollDarkSky({
+                'extend': 'hourly',
+                'exclude': 'alerts,flags'
+            }, function (err, data) {
+                if (!data.minutely) {
+                    console.log('DarkSky returned no minutely data, substituting hourly summary');
+                    data.minutely = {
+                        'summary': data.hourly.summary
+                    };
+                }
                 cachedForecast = data;
                 callback(null, cachedForecast);
             })
@@ -45,20 +62,29 @@ app.factory('DarkSky', function ($http, $interval, config) {
         }
     }
 
+    function timeMachine(time, callback) {
+        pollDarkSky({
+            'time': time,
+            'extend': 'hourly',
+            'exclude': 'currently,minutely,daily,alerts,flags'
+        }, function (err, data) {
+            callback(null, data);
+        });
+    }
+
     // poll on an interval to update forecast
-    pollDarkSky(function (err, data) {
+    currentForecast(function () {
         console.log('precached forecast');
-        cachedForecast = data;
     });
     $interval(function () {
-        pollDarkSky(function (err, data) {
+        currentForecast(function () {
             console.log('updated forecast');
-            cachedForecast = data;
         });
     }, interval);
 
     return {
-        currentForecast: currentForecast
+        currentForecast: currentForecast,
+        timeMachine: timeMachine
     };
 });
 
