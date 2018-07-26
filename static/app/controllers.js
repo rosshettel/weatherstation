@@ -1,7 +1,7 @@
 var app = angular.module('weatherstation');
 
 app.controller('statusBarCtrl', function ($scope, $interval, DarkSky, config) {
-    $scope.timezone = config.clocks.bottom.tz;
+    $scope.timezone = config.clock.timezone;
 
     DarkSky.currentForecast(function (err, data) {
         if (err) {
@@ -38,7 +38,8 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                     truetemperature: data.currently.apparentTemperature,
                     wind: data.currently.windSpeed + " " + data.currently.windBearing,
                     windspeed: Math.round(data.currently.windSpeed),
-                    winddirection: bearingToCompass(data.currently.windBearing)
+                    winddirection: bearingToCompass(data.currently.windBearing),
+                    uvindex: data.currently.uvIndex
                 };
 
                 $scope.chartConfig = {
@@ -153,16 +154,7 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
             }
         });
 
-        $scope.clocks = {
-            top: {
-                name: config.clocks.top.name,
-                timezone: config.clocks.top.tz
-            },
-            bottom: {
-                name: config.clocks.bottom.name,
-                timezone: config.clocks.bottom.tz
-            }
-        };
+        $scope.clock = config.clock;
     }
 });
 
@@ -192,7 +184,7 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                         chart: {
                             alignTicks: false,
                             backgroundColor: 'black'
-        
+
                         },
                         tooltip: {
                             enabled: true,
@@ -237,7 +229,7 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                                 formatter: function () {
                                     var splits = [0,23,47,71,95,119,143,168],
                                         subset;
-        
+
                                     for (var i = 0; i < splits.length; i++) {
                                         if (this.point.index <= splits[i + 1] && this.point.index >= splits[i]) {
                                             subset = this.series.data.slice(splits[i], splits[i + 1]).map(function (data) {
@@ -246,11 +238,11 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                                             break;
                                         }
                                     }
-        
+
                                     var max = Math.max.apply(null, subset),
                                         min = Math.min.apply(null, subset),
                                         point = this.point.y;
-        
+
                                     if (this.point.y == min || this.point.y == max) {
                                         return Math.round(this.point.y) + "°";
                                     } else {
@@ -297,7 +289,7 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                             gridLineWidth: 0,
                             min: 0,
                             max: 100
-                        }                
+                        }
                     ],
                     xAxis: [{
                         type: 'datetime',
@@ -343,7 +335,7 @@ app.controller('webcamDashboardCtrl', function ($scope, $interval, config) {
     getWebcams();
     $interval(function () {
         conosle.log('updated webcams');
-        getWebcams();  
+        getWebcams();
     }, 1000 * 60 * 15);
 });
 

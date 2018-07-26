@@ -36,13 +36,13 @@ body {
 }
 
 
-#clocks {
+#currently-left {
     float: left;
     width: 45%;
     height: 300px;
     text-align: center;
 }
-#clocks #top {
+#currently-left #top {
     padding-top: 17px;
 }
 .bigclock clock {
@@ -52,24 +52,28 @@ body {
     font-size: 25px;
     margin-top: 0px;
 }
+#currently-left .temp {
+    font-size: 85px;
+    margin-top: 20px;
+}
 
 
-#currently {
+#currently-right {
     width: 55%;
     height: 300px;
     text-align: center;
     float: right;
 }
-#currently .icon {
+#currently-right .icon {
     width: 125px;
     height: 125px;
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 15px;
 }
-#currently .temp {
+#currently-right .temp {
     font-size: 50px;
 }
-#currently .summary {
+#currently-right .summary {
     font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
