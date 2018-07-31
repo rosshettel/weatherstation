@@ -202,7 +202,7 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                     loading: false,
                     size: {
                         width: 640,
-                        height: 305
+                        height: 283
                     },
                     title: {
                         text: ""
