@@ -19,9 +19,9 @@ angular.module('weatherstation').constant('config', {
     routeRotation: [
         {route: '/today', time: 15},
         {route: '/weatherRadar', time: 10},
-        {route: '/webcam', time: 7},
+        // {route: '/webcam', time: 7},
         {route: '/forecast', time: 20},
-        {route: '/webcam', time: 7}
+        // {route: '/webcam', time: 7}
     ],
     clock: {name: 'Portland', timezone: 'America/Los_Angeles'}
 });
