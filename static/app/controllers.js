@@ -103,7 +103,7 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             animation: false,
                             data: data.hourly.data.map(function (data) {
                                 return {
-                                    y: data.precipProbability * 100,
+                                    y: data.precipIntensity / 25.4,
                                     x: data.time * 1000
                                 };
                             }).slice(0,24),
@@ -128,10 +128,11 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             title: {
                                 text: ""
                             },
+                            labels: {
+                                enabled: false
+                            },
                             gridLineWidth: 0,
-                            opposite: true,
-                            min: 0,
-                            max: 100
+                            opposite: true
                         }
                     ],
                     xAxis: [{
@@ -141,6 +142,10 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             formatter: function () {
                                 var date = new Date(this.value);
                                 return date.toLocaleString('en-US', {hour: 'numeric', hour12: true});
+                            },
+                            style: {
+                                color: "#ffffff",
+                                fontSize: "14px"
                             }
                         },
                         plotLines: [{
@@ -257,7 +262,8 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                             animation: false,
                             data: hourlyData.map(function (data) {
                                 return {
-                                    y: data.precipProbability * 100,
+                                    // y: data.precipProbability * 100,
+                                    y: data.precipIntensity,
                                     x: data.time * 1000
                                 };
                             }),
@@ -286,9 +292,7 @@ app.controller('forecastCtrl', function ($scope, DarkSky) {
                                 enabled: false
                             },
                             tickAmount: 3,
-                            gridLineWidth: 0,
-                            min: 0,
-                            max: 100
+                            gridLineWidth: 0
                         }
                     ],
                     xAxis: [{
