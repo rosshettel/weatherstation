@@ -131,6 +131,7 @@ app.controller('todayCtrl', function ($scope, DarkSky, config) {
                             labels: {
                                 enabled: false
                             },
+                            max: 0.09,
                             gridLineWidth: 0,
                             opposite: true
                         }
